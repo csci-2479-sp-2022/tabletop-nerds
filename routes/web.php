@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\GameController;
+use App\Http\Controllers\SearchResultController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -29,5 +30,9 @@ Route::get('/dashboard', function () {
 
 Route::get('/games', [GameController::class, 'show'])
 ->name('games');
+
+Route::get('/search-results', [SearchResultController::class, 'show'])
+->name('results');
+
 
 require __DIR__.'/auth.php';
