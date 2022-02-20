@@ -43,4 +43,8 @@ Route::controller(GameController::class)->group(function() {
 Route::get('/search-results', [SearchResultController::class, 'show'])
 ->name('results');
 
+Route::post('/search-results', function(){
+    return redirect()->route('results');
+});
+
 require __DIR__.'/auth.php';
