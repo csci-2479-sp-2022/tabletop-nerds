@@ -2,7 +2,7 @@
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
             {{ __('Games') }}
-        </h2>    
+        </h2>
     </x-slot>
 
     <div class="py-12">
@@ -13,9 +13,13 @@
                     <div class="text-xl">{{$game['name']}}</div>
                     <div class="px-6">{{$game['description']}}</div>
                     <div class="">{{$game['rating']}}</div>
+                    <div class="p-6"> <a class="btn-details p-2" href="/game/{{$game->id}}"> Details</a> </div>
                 </div>
                 @endforeach
             </div>
         </div>
     </div>
+
 </x-app-layout>
+
+

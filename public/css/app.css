@@ -723,6 +723,9 @@ select {
 .w-48 {
   width: 12rem;
 }
+.w-img {
+    width: 32rem;
+  }
 .w-4 {
   width: 1rem;
 }
@@ -953,7 +956,7 @@ select {
   line-height: 1.25rem;
 }
 .text-xl {
-  font-size: 1.25rem;
+  font-size: 1.40rem;
   line-height: 1.75rem;
 }
 .text-lg {
@@ -972,7 +975,7 @@ select {
   font-weight: 500;
 }
 .font-semibold {
-  font-weight: 600;
+  font-weight: 800;
 }
 .uppercase {
   text-transform: uppercase;
@@ -1370,5 +1373,12 @@ select {
     padding-left: 2rem;
     padding-right: 2rem;
   }
+}
+
+.btn-details {
+    border-radius: 10%;
+    color: white;
+    font:18px bold;
+    background-color: rgb(61, 61, 61);
 }
 
