@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\GameController;
+use App\Http\Controllers\SearchResultController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -27,7 +28,23 @@ Route::get('/dashboard', function () {
 });
 */
 
-Route::get('/games', [GameController::class, 'show'])
-->name('games');
+// Route::get('/games', [GameController::class, 'show'])
+// ->name('games');
+
+// Route::get('/game/{id}', [function ($id) {
+//     return 'Game' .$id;
+// }]);
+
+Route::controller(GameController::class)->group(function() {
+    Route::get('/games', 'show')->name('games');
+    Route::get('/game/{id}', 'view')->name('game-info');
+});
+
+Route::get('/search-results', [SearchResultController::class, 'show'])
+->name('results');
+
+Route::post('/search-results', function(){
+    return redirect()->route('results');
+});
 
 require __DIR__.'/auth.php';
