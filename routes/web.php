@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AccountController;
 use App\Http\Controllers\GameController;
 use App\Http\Controllers\SearchResultController;
 use Illuminate\Support\Facades\Route;
@@ -40,5 +41,11 @@ Route::get('/search-results', [SearchResultController::class, 'show'])
 Route::post('/search-results', function(){
     return redirect()->route('results');
 });
+
+Route::controller(AccountController::class)->group(function() {
+    Route::get('/wishlist', 'show')->name('wishlist');
+    Route::get('/wishlist/{id}', 'view')->name('wish-info');
+});
+
 
 require __DIR__.'/auth.php';
