@@ -19,7 +19,9 @@
                     <x-nav-link :href="route('games')" :active="request()->routeIs('games')">
                         {{ __('Game List') }}
                     </x-nav-link>
-
+                    <x-nav-link :href="route('wishlist')" :active="request()->routeIs('wishlist')">
+                        {{ __('Wishlist') }}
+                    </x-nav-link>
                     <div class="mb-2 mt-3 ml-3 ">
                         <div class="input-group relative flex flex-wrap items-stretch w-full mb-4">
                             <form method="POST" class="inline-flex" action="{{ route('results') }}">
