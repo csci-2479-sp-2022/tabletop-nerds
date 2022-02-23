@@ -11,7 +11,7 @@
                 @foreach($games as $game)
                 <div class="flex p-6 bg-white border-b border-gray-200 justify-between items-center">
                     <div class="text-xl">{{$game['name']}}</div>
-                    <div class="px-6">{{$game['description']}}</div>
+                    <div class="px-6" >{{$game['description']}}</div>
                     <div class="">{{$game['rating']}}</div>
                     <div class="p-6"> <a class="btn-details p-2" href="/game/{{$game->id}}"> Details</a> </div>
                 </div>
