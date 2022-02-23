@@ -25,9 +25,9 @@ Route::get('/', function () {
 });
 
 
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth'])->name('dashboard');
+Route::get('/profile', function () {
+    return view('profile');
+})->middleware(['auth'])->name('profile');
 
 
 Route::controller(GameController::class)->group(function() {
