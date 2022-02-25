@@ -69,6 +69,9 @@
                                                     this.closest('form').submit();">
                                     {{ __('Profile') }}
                                 </x-dropdown-link>
+                            <x-responsive-nav-link :href="route('wishlist')">
+                                     {{ __('My Wishlist') }}
+                               </x-responsive-nav-link>
                         </x-slot>
                     </x-dropdown>
                 @else
@@ -105,9 +108,10 @@
                     </svg>
                 </button>
             </form>
-            <x-responsive-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
-                {{ __('Dashboard') }}
+            <x-responsive-nav-link :href="route('profile')" :active="request()->routeIs('profile')">
+                {{ __('Profile') }}
             </x-responsive-nav-link>
+
 
             <x-responsive-nav-link :href="route('games')" :active="request()->routeIs('games')">
                 {{ __('Game List') }}
@@ -124,6 +128,7 @@
                 </div>
 
 
+
             <div class="mt-3 space-y-1">
                 <!-- Authentication -->
                 <x-responsive-nav-link :href="route('wishlist')">
@@ -137,10 +142,13 @@
 
                     </x-responsive-nav-link>
                 </form>
-
+                @else
+                <a href="{{ route('login') }}" class="text-sm underline">Log in</a>
+                &nbsp;|&nbsp;
+                <a href="{{ route('register') }}" class="text-sm underline">Register</a>
+            @endauth
 
             </div>
-
         </div>
     </div>
 </nav>
