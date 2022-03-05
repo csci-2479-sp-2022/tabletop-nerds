@@ -5,7 +5,7 @@
             <div class="flex">
                 <!-- Logo -->
                 <div class="shrink-0 flex items-center">
-                    <a href="{{ route('profile') }}">
+                    <a href="{{ route('home') }}">
                         <x-application-logo class="block h-10 w-auto fill-current text-gray-600" />
                     </a>
                 </div>
@@ -73,12 +73,13 @@
 
                     </x-slot>
                 </x-dropdown>
+                </div>
                 @else
                 <a href="{{ route('login') }}" class="text-sm underline">Log in</a>
                 &nbsp;|&nbsp;
                 <a href="{{ route('register') }}" class="text-sm underline">Register</a>
                 @endauth
-            </div>
+            
 
             <!-- Hamburger -->
             <div class="-mr-2 flex items-center sm:hidden">
@@ -134,13 +135,13 @@
 
                         </x-responsive-nav-link>
                     </form>
-
+                </div>
                     @else
                     <a href="{{ route('login') }}" class="text-sm underline">Log in</a>
                     &nbsp;|&nbsp;
                     <a href="{{ route('register') }}" class="text-sm underline">Register</a>
                     @endauth
-                </div>
+                
             </div>
             
         </div>
