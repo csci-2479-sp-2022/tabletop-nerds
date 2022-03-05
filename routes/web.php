@@ -21,8 +21,8 @@ use Illuminate\Support\Facades\Route;
 // });
 
 Route::get('/', function () {
-    return view('dashboard');
-})->middleware(['auth']);
+    return view('homepage');
+})->name('home');
 
 
 Route::get('/profile', function () {
