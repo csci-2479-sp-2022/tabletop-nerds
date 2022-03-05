@@ -3,26 +3,22 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\SearchResult;
+use App\Contracts\GameInterface;
 
 class SearchResultController extends Controller
 {
+    public function __construct(
+        private GameInterface $gameInterface
+    )
+    {}
+    
     public function show()
     {
         return view(
             'search-results',
             [
-                'results' => self::getSearch(),
+                'results' => $this->gameInterface->searchGamesByTitle("test"),
             ]
         );
-    }
-
-    public function getSearch()
-    {
-        return [
-            SearchResult::make([
-                'name' => 'Test search 1!'
-            ])
-        ];
     }
 }
