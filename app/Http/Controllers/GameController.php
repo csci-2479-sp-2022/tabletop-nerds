@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Contracts\GameInterface;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class GameController extends Controller
 {
@@ -11,20 +12,35 @@ class GameController extends Controller
         private GameInterface $gameInterface
     )
     {}
-    
-    public function show()
+
+    public function show(?int $id = null)
     {
-        return view(
-            'game-list',
-            [
-                'games' => $this->gameInterface->getGames(),
-            ]
-        );
+        if (is_int($id)) {
+            return $this->getGameDetails($id);
+        }
+
+        return $this->getGameList();
     }
 
-    public function view(int $id)
+
+    private function getGameList()
     {
-        return view('game-info', [ 'game' => $this->gameInterface->getGameById($id) ]);
+        return view('game-list', [
+            'games' => $this->gameInterface->getGames(),
+        ]);
+    }
+
+
+
+    public function getGameDetails(int $id)
+    {
+        $game = $this->gameInterface->getGameById($id);
+
+        if ($game == null) {
+            throw new NotFoundHttpException();
+        }
+
+        return view('game-info', [ 'game' => $game]);
     }
 
 }

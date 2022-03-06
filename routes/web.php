@@ -32,8 +32,10 @@ Route::get('/profile', function () {
 
 Route::controller(GameController::class)->group(function() {
     Route::get('/games', 'show')->name('games');
-    Route::get('/game/{id}', 'view')->name('game-info');
+    Route::get('/game/{id}', 'show')->name('game-info');
 });
+
+
 
 Route::get('/search-results', [SearchResultController::class, 'show'])
 ->name('results');

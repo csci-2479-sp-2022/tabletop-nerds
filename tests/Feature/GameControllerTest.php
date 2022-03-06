@@ -85,6 +85,11 @@ class GameControllerTest extends TestCase
 
     public function test_get_game_with_invalid_id()
     {
+        $this->gameServiceSpy->shouldReceive('getGameById')
+        ->with(3)
+        ->andReturn(
+            null
+        );
 
         $response = $this->get('/game/3');
 
