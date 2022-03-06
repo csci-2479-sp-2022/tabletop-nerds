@@ -47,5 +47,4 @@ Route::controller(AccountController::class)->group(function() {
     Route::get('/wishlist/{id}', 'view')->name('wish-info');
 });
 
-
 require __DIR__.'/auth.php';
