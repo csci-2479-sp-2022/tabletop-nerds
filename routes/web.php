@@ -32,8 +32,10 @@ Route::get('/profile', function () {
 
 Route::controller(GameController::class)->group(function() {
     Route::get('/games', 'show')->name('games');
-    Route::get('/game/{id}', 'view')->name('game-info');
+    Route::get('/game/{id}', 'show')->name('game-info');
 });
+
+
 
 Route::get('/search-results', [SearchResultController::class, 'show'])
 ->name('results');
@@ -43,8 +45,8 @@ Route::post('/search-results', function(){
 });
 
 Route::controller(AccountController::class)->group(function() {
-    Route::get('/wishlist', 'show')->name('wishlist');
-    Route::get('/wishlist/{id}', 'view')->name('wish-info');
+    Route::get('/wishlist', 'show')->middleware(['auth'])->name('wishlist');
+    Route::get('/wishlist/{id}', 'view')->middleware(['auth'])->name('wish-info');
 });
 
 require __DIR__.'/auth.php';
