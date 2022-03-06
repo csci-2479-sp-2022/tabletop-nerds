@@ -43,8 +43,8 @@ Route::post('/search-results', function(){
 });
 
 Route::controller(AccountController::class)->group(function() {
-    Route::get('/wishlist', 'show')->name('wishlist');
-    Route::get('/wishlist/{id}', 'view')->name('wish-info');
+    Route::get('/wishlist', 'show')->middleware(['auth'])->name('wishlist');
+    Route::get('/wishlist/{id}', 'view')->middleware(['auth'])->name('wish-info');
 });
 
 require __DIR__.'/auth.php';

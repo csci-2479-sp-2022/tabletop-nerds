@@ -36,7 +36,7 @@ class GameService implements GameInterface
 
     public function searchGamesByTitle(string $title): array
     {
-        return 
+        return
             [
                 SearchResult::make(['name' => 'Test search 1!'])
         ];
