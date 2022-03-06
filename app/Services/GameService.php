@@ -8,7 +8,7 @@ use App\Models\SearchResult;
 
 class GameService implements GameInterface
 {
-    public function getGameById(int $id): Game
+    public function getGameById(int $id): ?Game
     {
         foreach (self::getGames() as $game) {//placeholder until I make database call
             if ($game->id === $id) {
@@ -36,7 +36,7 @@ class GameService implements GameInterface
 
     public function searchGamesByTitle(string $title): array
     {
-        return 
+        return
             [
                 SearchResult::make(['name' => 'Test search 1!'])
         ];
