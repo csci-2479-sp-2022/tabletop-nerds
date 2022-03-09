@@ -8,7 +8,7 @@ use App\Models\Wishlist;
 
 class AccountService implements AccountInterface
 {
-    public function getWishlistByUserId(int $id): Wishlist
+    public function getWishlistByUserId(int $id): ?Wishlist
     {
         foreach (self::getWishlist() as $wish) {
 
@@ -19,7 +19,7 @@ class AccountService implements AccountInterface
         return null;
     }
 
-    public function getWishById(int $id): Wishlist
+    public function getWishById(int $id): ?Wishlist
     {
         foreach (self::getWishlist() as $wish) {
 
