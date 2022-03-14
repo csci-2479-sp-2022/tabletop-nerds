@@ -53,7 +53,7 @@ class SearchResultControllerTest extends TestCase
     public function test_getSearchResult_list() {
         
         //arrange 
-        $this -> gameServiceSpy -> shouldReceive('searchGameByTitle')
+        $this -> gameServiceSpy -> shouldReceive('searchGamesByTitle')
         ->once()
         ->andReturn(
             $this -> searchResult 
@@ -73,7 +73,7 @@ class SearchResultControllerTest extends TestCase
     public function test_get_post_redirect() {
         
         //arange
-        $this -> searchResultServiceSpy -> shouldReceive('getSearchResultById')
+        $this -> gameServiceSpy -> shouldReceive('getSearchResultById')
         ->once()
         ->andReturn(
             $this -> searchResult
