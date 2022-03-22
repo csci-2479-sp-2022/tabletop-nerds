@@ -50,7 +50,7 @@ class SearchResultControllerTest extends TestCase
 
     } // end setUp
 
-    public function test_getSearchResult_list() {
+    public function test_get_search_result() {
         
         //arrange 
         $this -> gameServiceSpy -> shouldReceive('searchGamesByTitle')
@@ -68,31 +68,17 @@ class SearchResultControllerTest extends TestCase
             'results',
                 $this -> searchResult
         );
-    } //end List Test
+    } //end get Test
 
-    public function test_get_post_redirect() {
+    public function test_post_search_result() {
         
-        //arange
-        $this -> gameServiceSpy -> shouldReceive('getSearchResultById')
-        ->once()
-        ->andReturn(
-            $this -> searchResult
-        );
 
         //act 
-        $response = $this -> get('/SearchResult/1');
+        $response = $this -> call('POST', '/search-results');
 
         //Assert
-        $response -> assertStatus(200);
-        $response -> assertViewHas(
-            'SearchResult',
-                SearchResult::make([
-                    'id' => 1,
-                    'name' => 'monopoly',
-                    
-                ]),
-        );
-    } // end Id Test
+        $response -> assertRedirect('/search-results');
+    } // end post Test
 
 
 } // end
