@@ -16,7 +16,7 @@ return new class extends Migration
         Schema::create('publishers', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->char('code', 3);
+            $table->string('code',3);
             $table->timestamps();
         });
     }

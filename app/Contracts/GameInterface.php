@@ -3,6 +3,7 @@
 namespace App\Contracts;
 
 use App\Models\Game;
+use Laravel\Sail\Console\Publisher;
 use App\Models\SearchResult;
 
 interface GameInterface
@@ -10,7 +11,7 @@ interface GameInterface
 
     function getGameById(int $id): ?Game;
 
-    function getGames(string $orderBy='title', bool $direction= false, int $limit=20): array;
+    function getGames();
 
     function searchGamesByTitle(string $title): array;
 

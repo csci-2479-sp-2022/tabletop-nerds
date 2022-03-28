@@ -2,7 +2,7 @@
     <x-slot name="header">
         <a href="/games"> &#8592; Back to Games</a>
         <h1 class="font-semibold text-xl text-gray-900 leading-tight text-center">
-            {{$game['name']}}
+            {{$game->title}}
         </h1>
     </x-slot>
 
@@ -16,13 +16,16 @@
                         </div>
                         <div class='flex-1 card-block relative'>
                             <div class="px-4 text-lg">
-                                <p class='leading-normal py-2'><b> <span> Name: </span> </b> {{ $game['name']}}</p>
-                                <p class='leading-normal py-2'><b> <span> Description: </span> </b> {{ $game['description']}}</p>
-                                <p class='leading-normal py-2'><b> <span> Type: </span> </b> {{ $game['type']}}</p>
-                                <p class='leading-normal py-2'><b> <span> Publication: </span> </b> {{ $game['publication']}}</p>
-                                <p class='leading-normal py-2'><b> <span> Rating: </span> </b> {{ $game['rating']}}</p>
-                                <p class='leading-normal py-2'><b> <span> Complexity: </span> </b> {{ $game['complexity']}}</p>
-                                <p class='leading-normal py-2'><b> <span> Price: </span> </b> {{ $game['cost']}}</p>
+
+                                <p class='leading-normal py-2'><b> <span> Name: </span> </b> {{ $game->title}}</p>
+                                <p class='leading-normal py-2'><b> <span> Publisher: </span> </b> {{ $game->publisher_id}} </p>
+                                <p class='leading-normal py-2'><b> <span> Description: </span> </b> {{ $game->description}}</p>
+                                <p class='leading-normal py-2'><b> <span> Release Year: </span> </b> {{ $game->release_year}}</p>
+                                <p class='leading-normal py-2'><b> <span> Category: </span> </b> {{ $game->categoryList()}}</p>
+                                <p class='leading-normal py-2'><b> <span> Complexity rating: </span> </b> {{ $game->complexity_rating}}</p>
+                                <p class='leading-normal py-2'><b> <span> Estimated playing time: </span> </b> {{ $game->playing_time_minutes}} min</p>
+                                <p class='leading-normal py-2'><b> <span> Players number: </span> </b> {{ $game->min_number_players}} to {{ $game->max_number_players}} </p>
+                                <p class='leading-normal py-2'><b> <span> Price:  </span> </b> ${{ $game->cost}}</p>
                             </div>
                         </div>
                     </div>
