@@ -3,7 +3,7 @@
 namespace App\Contracts;
 
 use App\Models\Game;
-use Laravel\Sail\Console\Publisher;
+use App\Models\Publisher;
 use App\Models\SearchResult;
 
 interface GameInterface

@@ -11,7 +11,7 @@ class Game extends Model
 {
     use HasFactory;
 
-    public function publishers()
+    public function publisher()
     {
         return $this->belongsTo(Publisher::class);
     }
@@ -32,6 +32,4 @@ class Game extends Model
 
         return implode(', ', $catList);
     }
-
-
 }

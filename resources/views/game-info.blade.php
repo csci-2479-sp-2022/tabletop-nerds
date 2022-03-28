@@ -18,7 +18,7 @@
                             <div class="px-4 text-lg">
 
                                 <p class='leading-normal py-2'><b> <span> Name: </span> </b> {{ $game->title}}</p>
-                                <p class='leading-normal py-2'><b> <span> Publisher: </span> </b> {{ $game->publisher_id}} </p>
+                                <p class='leading-normal py-2'><b> <span> Publisher: </span> </b> {{ $game->publisher->name}} </p>
                                 <p class='leading-normal py-2'><b> <span> Description: </span> </b> {{ $game->description}}</p>
                                 <p class='leading-normal py-2'><b> <span> Release Year: </span> </b> {{ $game->release_year}}</p>
                                 <p class='leading-normal py-2'><b> <span> Category: </span> </b> {{ $game->categoryList()}}</p>
