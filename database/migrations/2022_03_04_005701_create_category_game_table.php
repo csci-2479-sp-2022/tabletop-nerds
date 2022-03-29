@@ -13,11 +13,10 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('game_user_junction', function (Blueprint $table) {
+        Schema::create('category_game', function (Blueprint $table) {
             $table->id();
             $table->foreignId('game_id')->constrained();
-            $table->foreignId('user_id')->constrained();
-            $table->decimal('game_rating', 2, 1);
+            $table->foreignId('category_id')->constrained();
             $table->timestamps();
         });
     }
@@ -29,6 +28,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('game_user_junction');
+        Schema::dropIfExists('category_game');
     }
 };

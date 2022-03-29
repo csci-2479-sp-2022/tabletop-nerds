@@ -35,5 +35,7 @@ jobs:
       run: vendor/bin/phpunit --coverage-xml ./coverage/
     - name: Check code coverage
 
-      run: php artisan test:coverage 10
+
+      run: php artisan test:coverage 40
+
 
