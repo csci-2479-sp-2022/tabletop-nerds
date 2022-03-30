@@ -5,28 +5,26 @@ namespace Tests\Feature;
 use App\Contracts\GameInterface;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
-use App\Models\SearchResult;
-use App\Contracts\SearchResultService;
-use App\Services\GameService;
 use Mockery\MockInterface;
 use App\Models\Game;
-
 
 use Tests\TestCase;
 
 class SearchResultControllerTest extends TestCase
 {
 
-    
-    private MockInterface $gameServiceSpy; 
-    private array $searchResult; 
+
+    private MockInterface $gameServiceSpy;
+
+    private   $searchResult;
 
     // /**
     //  * A basic test example.
     //  *
     //  * @return void
     //  */
-  
+
+
     private static function getSearchResult()
     {
         $searchGame = Game::where('title', 'LIKE', 'Monopoly');
