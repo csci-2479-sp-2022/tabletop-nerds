@@ -36,4 +36,3 @@ jobs:
     - name: Check code coverage
 
       run: php artisan test:coverage 40
-

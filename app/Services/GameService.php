@@ -21,12 +21,12 @@ class GameService implements GameInterface
         return null;
     }
 
-    public function getGames()
-    {
+
+    public function getGames(){
         return
             Game::with(['publisher', 'categories'])->get();
     }
-
+  
     public function searchGamesByTitle(string $title): ?Game
     {
         $result = Game::where('title', 'Like', "%{$title}%")->first();

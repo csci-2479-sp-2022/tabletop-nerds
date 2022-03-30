@@ -3,6 +3,9 @@
 namespace Tests\Feature;
 
 use App\Contracts\GameInterface;
+use App\Services\GameService;
+use Illuminate\Foundation\Testing\RefreshDatabase;
+
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 use Mockery\MockInterface;
