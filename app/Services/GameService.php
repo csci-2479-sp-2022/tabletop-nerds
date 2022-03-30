@@ -4,6 +4,7 @@ namespace App\Services;
 
 use App\Contracts\GameInterface;
 use App\Models\Game;
+
 use App\Models\SearchResult;
 use Illuminate\Support\Arr;
 
@@ -20,17 +21,18 @@ class GameService implements GameInterface
         return null;
     }
 
-    public function getGames(){
+    public function getGames()
+    {
         return
             Game::with(['publisher', 'categories'])->get();
     }
 
-
-    public function searchGamesByTitle(string $title): array
+    public function searchGamesByTitle(string $title): ?Game
     {
-        return
-            [
-                SearchResult::make(['name' => 'Test search 1!'])
-            ];
+        $result = Game::where('title', 'Like', "%{$title}%")->first();
+        if ($result) {
+            return $result;
+        }
+        return null;
     }
 }
