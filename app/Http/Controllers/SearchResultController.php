@@ -30,6 +30,9 @@ class SearchResultController extends Controller
     public function searchGameDetails(string $title)
     {
         $game = $this->gameInterface->searchGamesByTitle($title);
+
+        $reviews = $this->gameInterface->getReviews($game);
+
         if ($game === null) {
             return view(
                 'search-results',
@@ -38,7 +41,7 @@ class SearchResultController extends Controller
         } else {
             return view(
                 'game-info',
-                ['game' => $game]
+                ['game' => $game, 'reviews' => $reviews]
             );
         }
     }

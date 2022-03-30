@@ -15,4 +15,6 @@ interface GameInterface
 
     function searchGamesByTitle(string $title): ?Game;
 
+    function getReviews(?Game $game);
+
 }

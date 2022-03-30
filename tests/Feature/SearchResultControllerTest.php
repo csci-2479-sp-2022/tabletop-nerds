@@ -5,31 +5,28 @@ namespace Tests\Feature;
 use App\Contracts\GameInterface;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
-use Mockery\MockInterface;
 use App\Models\Game;
+use Mockery\MockInterface;
 
 use Tests\TestCase;
 
 class SearchResultControllerTest extends TestCase
 {
-
-
     private MockInterface $gameServiceSpy;
 
-    private   $searchResult;
-
-    // /**
-    //  * A basic test example.
-    //  *
-    //  * @return void
-    //  */
-
+    private $searchResult;
 
     private static function getSearchResult()
     {
         $searchGame = Game::where('title', 'LIKE', 'Monopoly');
         return $searchGame->first();
     } // end get
+
+    private static function getReviews($game)
+    {
+        $reviewCollection = $game->reviews()->get();
+        return $reviewCollection->all();
+    }
 
     protected function setUp(): void
     {
@@ -50,6 +47,13 @@ class SearchResultControllerTest extends TestCase
                 $this->searchResult
             );
 
+            $game = $this->searchResult;
+            $this->gameServiceSpy->shouldReceive('getReviews')
+            ->with($this->searchResult)
+            ->once()
+            ->andReturn(
+                $this->getReviews($game)
+            );
         //act
         $response = $this->get('/search-results?game=Monopoly');
         //Assert
