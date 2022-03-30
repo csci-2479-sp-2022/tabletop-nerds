@@ -13,11 +13,14 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('categories', function (Blueprint $table) {
-            $table->id();
-            $table->string('name');
-            $table->char('code', 3);
+        Schema::create('reviews', function (Blueprint $table) {
+            $table->primary(['game_id', 'user_id']);
             $table->timestamps();
+            $table->boolean('recommended');
+            $table->tinyText('title');
+            $table->text('body');
+            $table->foreignId('game_id')->constrained();
+            $table->foreignId('user_id')->constrained();
         });
     }
 
@@ -28,6 +31,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('categories');
+        Schema::dropIfExists('reviews');
     }
 };
