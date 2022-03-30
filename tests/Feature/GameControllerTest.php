@@ -5,6 +5,7 @@ namespace Tests\Feature;
 use App\Contracts\GameInterface;
 use App\Services\GameService;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 use Mockery\MockInterface;
@@ -41,7 +42,6 @@ class GameControllerTest extends TestCase
 
 
     }
-
 
     public function test_get_games()
     {
@@ -84,7 +84,7 @@ class GameControllerTest extends TestCase
         //assert
         $response->assertStatus(200);
         $response->assertViewHas(
-            'game', $game
+            'game', $this->games[0]
 
         );
     }

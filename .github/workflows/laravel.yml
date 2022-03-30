@@ -36,6 +36,7 @@ jobs:
     - name: Check code coverage
 
 <<<<<<< HEAD
+<<<<<<< HEAD
       run: php artisan test:coverage 40
 
 =======
@@ -44,3 +45,6 @@ jobs:
 
 
 >>>>>>> main
+=======
+      run: php artisan test:coverage 40
+>>>>>>> 5710f2738a607f1bbba02db551c72540bc2eb9c3

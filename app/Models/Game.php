@@ -4,8 +4,6 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use App\Models\Category;
-use App\Models\Publisher;
 
 class Game extends Model
 {
@@ -20,6 +18,7 @@ class Game extends Model
     {
         return $this->belongsToMany(Category::class);
     }
+
 
     public function reviews()
     {
