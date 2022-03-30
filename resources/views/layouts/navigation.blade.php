@@ -19,10 +19,8 @@
                     </x-nav-link>
                     <div class="mb-2 mt-3 ml-3 ">
                         <div class="input-group relative flex flex-wrap items-stretch w-full mb-4">
-                            <form method="POST" class="inline-flex" action="{{ route('results') }}">
-                                @csrf
-
-                                <input type="search" class="form-control relative flex-auto min-w-0 block w-full px-3 py-1.5 text-base font-normal text-black-700 bg-white bg-clip-padding border border-solid border-gray-500 rounded transition ease-in-out m-0 focus:text-black-700 focus:bg-white focus:border-blue-600 focus:outline-none" placeholder="Search" aria-label="Search" aria-describedby="button-addon2">
+                            <form method="GET" class="inline-flex" action="{{ route('results') }}">
+                                <input type="search" name="game" class="form-control relative flex-auto min-w-0 block w-full px-3 py-1.5 text-base font-normal text-black-700 bg-white bg-clip-padding border border-solid border-gray-500 rounded transition ease-in-out m-0 focus:text-black-700 focus:bg-white focus:border-blue-600 focus:outline-none" placeholder="Search" aria-label="Search" aria-describedby="button-addon2" require>
 
 
                                 <button type="submit" class="btn px-4 py-4 bg-black-600 text-black font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-green-300 hover:shadow-lg focus:bg-blue-700  focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out flex items-center" type="button" id="button-addon2">
@@ -73,13 +71,13 @@
 
                     </x-slot>
                 </x-dropdown>
-                </div>
-                @else
-                <a href="{{ route('login') }}" class="text-sm underline">Log in</a>
-                &nbsp;|&nbsp;
-                <a href="{{ route('register') }}" class="text-sm underline">Register</a>
-                @endauth
-            
+            </div>
+            @else
+            <a href="{{ route('login') }}" class="text-sm underline">Log in</a>
+            &nbsp;|&nbsp;
+            <a href="{{ route('register') }}" class="text-sm underline">Register</a>
+            @endauth
+
 
             <!-- Hamburger -->
             <div class="-mr-2 flex items-center sm:hidden">
@@ -96,10 +94,9 @@
     <!-- Responsive Navigation Menu -->
     <div :class="{'block': open, 'hidden': ! open}" class="hidden sm:hidden text-center">
         <div class="pt-2 pb-3 space-y-1">
-            <form method="POST" class="inline-flex" action="{{ route('results') }}">
-                @csrf
+            <form method="GET" class="inline-flex" action="{{ route('results') }}">
+                <input type="search" name="game" class="form-control relative flex-auto min-w-0 block w-full px-3 py-1.5 text-base font-normal text-black-700 bg-white bg-clip-padding border border-solid border-gray-500 rounded transition ease-in-out m-0 focus:text-black-700 focus:bg-white focus:border-blue-600 focus:outline-none" placeholder="Search" aria-label="Search" aria-describedby="button-addon2" require>
 
-                <input type="search" class="form-control relative flex-auto block w-auto px-3 py-1.5 text-base font-normal text-black-700 bg-white bg-clip-padding border border-solid border-gray-500 rounded transition ease-in-out m-0 focus:text-black-700 focus:bg-white focus:border-blue-600 focus:outline-none" placeholder="Search" aria-label="Search" aria-describedby="button-addon2">
 
                 <button type="submit" class="btn px-4 py-4 bg-black-600 text-black font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-green-300 hover:shadow-lg focus:bg-blue-700  focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out flex items-center" type="button" id="button-addon2">
                     <svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="search" class="w-4" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
@@ -136,14 +133,14 @@
                         </x-responsive-nav-link>
                     </form>
                 </div>
-                    @else
-                    <a href="{{ route('login') }}" class="text-sm underline">Log in</a>
-                    &nbsp;|&nbsp;
-                    <a href="{{ route('register') }}" class="text-sm underline">Register</a>
-                    @endauth
-                
+                @else
+                <a href="{{ route('login') }}" class="text-sm underline">Log in</a>
+                &nbsp;|&nbsp;
+                <a href="{{ route('register') }}" class="text-sm underline">Register</a>
+                @endauth
+
             </div>
-            
+
         </div>
     </div>
 </nav>

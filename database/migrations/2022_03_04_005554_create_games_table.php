@@ -19,13 +19,14 @@ return new class extends Migration
             $table->decimal('complexity_rating', 3, 2);
             $table->decimal('cost', 5, 2);
             $table->year('release_year');
-            $table->foreignId('publisher_id')->constrained();
             $table->integer('playing_time_minutes');
             $table->integer('min_number_players');
             $table->integer('max_number_players');
             $table->text('description');
             $table->text('img_url');
+            $table->foreignId('publisher_id')->constrained();
             $table->timestamps();
+
         });
     }
 
