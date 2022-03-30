@@ -13,7 +13,7 @@ interface GameInterface
 
     function getGames();
 
-    function searchGamesByTitle(string $title): array;
+    function searchGamesByTitle(string $title): ?Game;
 
     function getReviews(?Game $game);
 

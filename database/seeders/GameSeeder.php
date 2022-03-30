@@ -42,7 +42,6 @@ class GameSeeder extends Seeder
                 'min_number_players' => 2,
                 'max_number_players' => 4,
                 'description' => 'Hey, That is My Fish! is an engaging, award-winning board game of strategic fish hunting, in which 2-4 players control determined penguins hungry for their next meal on a bustling Antarctic ice floe.',
-
                 'img_url' => 'https://cdn.shopify.com/s/files/1/0355/9119/2709/products/9781616611712_p0_v2_s550x406_5b5adfef-f28a-41f6-a265-d9300a3126fe.jpg?v=1611294077',
 
             ],
