@@ -9,6 +9,7 @@ use App\Models\SearchResult;
 use App\Contracts\SearchResultService;
 use App\Services\GameService;
 use Mockery\MockInterface;
+use App\Models\Game;
 
 
 use Tests\TestCase;
