@@ -25,6 +25,11 @@ class GameControllerTest extends TestCase
         return $gameCollection->all();
     }
 
+    private static function getReviews($game)
+    {
+        $reviewCollection = $game->reviews()->get();
+        return $reviewCollection->all();
+    }
 
 
     public function setUp(): void
@@ -35,15 +40,17 @@ class GameControllerTest extends TestCase
 
         $this->gameServiceSpy = $this->spy(GameInterface::class);
 
-        $this->seed();
+        
     }
 
     public function test_get_games()
     {
+        $this->seed();
         //arrange
         $this->gameServiceSpy->shouldReceive('getGames')
             ->once()
             ->andReturn($this->games);
+            
         //act
         $response = $this->get('/games');
         //assert
@@ -57,11 +64,18 @@ class GameControllerTest extends TestCase
     public function test_get_game_by_id()
     {
         //arrange
+        $game = $this->games[0];
         $this->gameServiceSpy->shouldReceive('getGameById')
             ->with(1)
             ->once()
             ->andReturn(
-                $this->games[0]
+                $game
+            );
+        $this->gameServiceSpy->shouldReceive('getReviews')
+            ->with($this->games[0])
+            ->once()
+            ->andReturn(
+                $this->getReviews($game)
             );
 
         //act
@@ -70,8 +84,8 @@ class GameControllerTest extends TestCase
         //assert
         $response->assertStatus(200);
         $response->assertViewHas(
-            'game',
-            $this->games[0]
+            'game', $game
+
         );
     }
 
@@ -84,6 +98,7 @@ class GameControllerTest extends TestCase
                 null
             );
         $response = $this->get('/game/99');
+
         $response->assertStatus(404);
     }
 }

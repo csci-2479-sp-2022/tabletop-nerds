@@ -26,7 +26,21 @@ class GameService implements GameInterface
         return
             Game::with(['publisher', 'categories'])->get();
     }
+
   
+
+
+
+    public function getReviews(?Game $game){
+        if($game != null){
+            $reviewCollection = $game->reviews()->get();
+            return $reviewCollection->all();
+        }else{
+            return null;
+        }
+    }
+
+
     public function searchGamesByTitle(string $title): ?Game
     {
         $result = Game::where('title', 'Like', "%{$title}%")->first();
