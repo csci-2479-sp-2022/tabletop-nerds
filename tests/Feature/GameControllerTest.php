@@ -84,7 +84,7 @@ class GameControllerTest extends TestCase
         //assert
         $response->assertStatus(200);
         $response->assertViewHas(
-            'game', $game
+            'game', $this->games[0]
 
         );
     }
