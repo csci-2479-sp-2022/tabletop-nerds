@@ -7,6 +7,7 @@ use Illuminate\Database\Seeder;
 use App\Models\Category;
 use App\Models\Publisher;
 use App\Models\Game;
+use App\Models\GameRating;
 
 class GameSeeder extends Seeder
 {
@@ -28,7 +29,6 @@ class GameSeeder extends Seeder
         $legacy = Category::where('code', 'LGS')->first();
         // $drafting = Category::where('name', 'Drafting')->first();
         // $roll = Category::where('name', 'Roll-and-move')->first();
-
 
         //Games
         $fantasy->games()->createMany([
@@ -105,7 +105,6 @@ class GameSeeder extends Seeder
         ]);
 
         $chartestone = Game::where('title', 'Chartestone')->first();
-
         $chartestone->categories()->attach([
             $legacy->id,
             $abstract->id,

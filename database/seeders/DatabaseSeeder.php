@@ -20,6 +20,7 @@ class DatabaseSeeder extends Seeder
             CategorySeeder::class,
             GameSeeder::class,
             ReviewSeeder::class,
+            GameRatingSeeder::class,
         ]);
     }
 }

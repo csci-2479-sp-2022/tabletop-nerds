@@ -18,10 +18,15 @@ class Game extends Model
     {
         return $this->belongsToMany(Category::class);
     }
-    
+
     public function reviews()
     {
         return $this->hasMany(Review::class);
+    }
+
+    public function ratings()
+    {
+        return $this->belongsToMany(GameRating::class);
     }
 
     public function categoryList(): string
