@@ -21,7 +21,6 @@ class GameService implements GameInterface
         return null;
     }
 
-
     public function getGames(){
         return
             Game::with(['publisher', 'categories'])->get();
@@ -36,9 +35,6 @@ class GameService implements GameInterface
         return null;
 
     }
-
-
-
 
     public function getReviews(?Game $game){
         if($game != null){

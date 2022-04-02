@@ -12,6 +12,7 @@ class Wishlist extends Model
     protected $fillable = [
         'id',
         'user_id',
+        'game_id',
         'title',
         'img_url',
         'content'

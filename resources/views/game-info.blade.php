@@ -9,15 +9,15 @@
     <div class="py-12 py-4 ">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
-                <div class="max-w-md mx-auto">
+                <div>
                     <div class='relative m-0 flex p-6'>
                         <div class='flex-no-shrink w-img py-2'>
                             <img alt='{{$game->description}}' class='block mx-auto' src='{{$game->img_url}}'>
                         </div>
                         <div class='flex-1 card-block relative'>
                             <div class="px-4 text-lg">
-
                                 <p class='leading-normal py-2'><b> <span> Name: </span> </b> {{ $game->title}}</p>
+                                <i class="heart-like far fa-heart fa-2x" data-status="unliked"/></i>
                                 <p class='leading-normal py-2'><b> <span> Publisher: </span> </b> {{ $game->publisher->name}} </p>
                                 <p class='leading-normal py-2'><b> <span> Description: </span> </b> {{ $game->description}}</p>
                                 <p class='leading-normal py-2'><b> <span> Release Year: </span> </b> {{ $game->release_year}}</p>
@@ -36,7 +36,7 @@
     <div class="py-12 py-4 ">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
-                <div class="max-w-md mx-auto"> 
+                <div>
                     <h1 class="py-6 font-semibold text-xl text-gray-900 leading-tight text-center border-b border-gray-200">Reviews</h1>
                     @foreach($reviews as $review)
                     <div class="flex p-6 border-b border-gray-200 justify-between items-center">
@@ -52,7 +52,7 @@
                             <path style="fill:#010002;" d="M394.854,205.444c9.218-15.461,19.102-30.181,14.258-49.527    c-2.951-11.632-10.965-21.126-23.882-28.255c3.26-7.982,7.421-22.76,2.008-37.27c-4.893-13.054-16.298-21.663-28.881-26.686    c-2.78-16.826-10.323-33.823-23.613-44.935C292.987-16.133,183.129,5.367,138.43,21.437C96.934,36.369,69.053,41.198,24.89,41.198    c0,63.444,0,127.334,0,190.761l61.525,0.122c29.336,18.175,52.641,43.992,81.286,63.354    c16.981,11.518,51.218,33.62,63.045,119.238c1.439,10.461,5.154,17.55,11.9,21.02c8.714,4.511,19.143,1.211,27.011-3.219    c57.615-32.327,1.975-88.536,21.947-132.569c17.168-37.822,53.25-15.054,84.789-22.476c30.425-7.169,36.684-23.459,36.562-35.855    C412.843,226.163,402.511,211.451,394.854,205.444z"/>
                         </svg>
                         @endif
-                        </div>  
+                        </div>
                     </div>
                     @endforeach
                 </div>
@@ -61,3 +61,26 @@
     </div>
 
 </x-app-layout>
+
+<script>
+
+$(document).ready(function(){
+    $(".heart-like").click(function(){
+      if($(this).attr('data-status') == "unliked"){
+        //ajax call, and if successful run below
+        $(this).removeClass('far');
+        $(this).addClass('text-red-500');
+        $(this).addClass('fa')
+        $(this).attr('data-status', 'liked');
+      } else {
+        //ajax call, and if successful run below
+        $(this).removeClass('text-red-500');
+        $(this).removeClass('fa')
+        $(this).addClass('far');
+        $(this).attr('data-status', 'unliked')
+      }
+    });
+  });
+
+
+</script>

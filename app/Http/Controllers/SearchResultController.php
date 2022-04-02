@@ -16,7 +16,6 @@ class SearchResultController extends Controller
     public function show()
     {
         $search = request()->query('game');
-
         if ($search === null) {
             return view(
                 'search-results',

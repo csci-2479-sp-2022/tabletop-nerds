@@ -33,6 +33,7 @@ Route::get('/profile', function () {
 Route::controller(GameController::class)->group(function() {
     Route::get('/games', 'show')->name('games');
     Route::get('/game/{id}', 'show')->name('game-info');
+
 });
 
 
@@ -48,5 +49,12 @@ Route::controller(AccountController::class)->group(function() {
     Route::get('/wishlist', 'show')->name('wishlist');
     Route::get('/wish/{id}', 'show')->name('wish-info');
 });
+
+Route::controller(AccountController::class)->group(function() {
+    Route::get('/wishlist', 'show')->name('wishlist');
+    Route::get('/wish/{id}', 'show')->name('wish-info');
+});
+
+
 
 require __DIR__.'/auth.php';
