@@ -13,7 +13,7 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('user_wishlists', function (Blueprint $table) {
+        Schema::create('wishlists', function (Blueprint $table) {
             $table->primary(['game_id', 'user_id']);
             $table->timestamps();
             $table->foreignId('game_id')->constrained();
@@ -28,6 +28,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('user_wishlists');
+        Schema::dropIfExists('wishlists');
     }
 };

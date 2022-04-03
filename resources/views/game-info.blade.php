@@ -17,7 +17,19 @@
                         <div class='flex-1 card-block relative'>
                             <div class="px-4 text-lg">
                                 <p class='leading-normal py-2'><b> <span> Name: </span> </b> {{ $game->title}}</p>
-                                <i class="heart-like far fa-heart fa-2x" data-status="unliked" data-id="{{$game->id}}" /></i>
+
+                                @php $countWishlist = 0 @endphp
+                                @if(Auth::check())
+                                    @php
+                                    $countWishlist = App\Models\Wishlist::countWishlist($game->id)
+                                    @endphp
+                                    @if ($countWishlist > 0)
+                                    <i class="heart-like fa fa-heart fa-2x text-red-500" data-status="liked" data-id="{{$game->id}}" /></i>
+                                    @else
+                                    <i class="heart-like far fa-heart fa-2x text-red-500" data-status="unliked" data-id="{{$game->id}}" /></i>
+                                    @endif
+                                @endif
+
                                 <p class='leading-normal py-2'><b> <span> Publisher: </span> </b> {{ $game->publisher->name}} </p>
                                 <p class='leading-normal py-2'><b> <span> Description: </span> </b> {{ $game->description}}</p>
                                 <p class='leading-normal py-2'><b> <span> Release Year: </span> </b> {{ $game->release_year}}</p>
@@ -64,10 +76,10 @@
 
 <script>
     $(document).ready(function() {
-
         $(".heart-like").click(function() {
             let heartIcon = $(this);
-            let gameId = heartIcon.attr('data-id');
+            let user_id = "{{ Auth::id()}}";
+            let game_id = heartIcon.attr('data-id');
             $.ajaxSetup({
                 headers: {
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -79,17 +91,15 @@
                     url: "{{ route('like-unlike-game') }}",
                     data: {
                         liked: true,
-                        game_id: gameId
+                        game_id: game_id,
+                        user_id: user_id
                     },
-                    dataType: "JSON",
-                    contentType: false,
-                    cache: false,
-                    processData: false,
+
                     success: function(response) {
                         heartIcon.removeClass('far');
-                        heartIcon.addClass('text-red-500');
                         heartIcon.addClass('fa')
                         heartIcon.attr('data-status', 'liked');
+                        console.log(response.message)
                     },
                     error: function(response) {
                         console.log(response)
@@ -101,17 +111,14 @@
                     url: "{{ route('like-unlike-game') }}",
                     data: {
                         liked: false,
-                        game_id: gameId
+                        game_id: game_id,
+                        user_id: user_id
                     },
-                    dataType: "JSON",
-                    contentType: false,
-                    cache: false,
-                    processData: false,
                     success: function(response) {
-                        heartIcon.removeClass('text-red-500');
                         heartIcon.removeClass('fa')
                         heartIcon.addClass('far');
                         heartIcon.attr('data-status', 'unliked')
+                        console.log(response.message)
                     },
                     error: function(response) {
                         console.log(response)

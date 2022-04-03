@@ -3,6 +3,7 @@
 use App\Http\Controllers\AccountController;
 use App\Http\Controllers\GameController;
 use App\Http\Controllers\SearchResultController;
+use App\Http\Controllers\WishlistController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -33,12 +34,12 @@ Route::get('/profile', function () {
 Route::controller(GameController::class)->group(function() {
     Route::get('/games', 'show')->name('games');
     Route::get('/game/{id}', 'show')->name('game-info');
-    Route::post('/game', function(){
-        return response()->json(['liked'=>'true']);
-    })->name('like-unlike-game');
+
 });
 
 
+Route::post('/like-unlike-game', [WishlistController::class, 'updateWishlist'])
+->name('like-unlike-game');
 
 Route::get('/search-results', [SearchResultController::class, 'show'])
 ->name('results');

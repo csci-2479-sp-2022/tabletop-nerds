@@ -12,6 +12,6 @@ interface AccountInterface
 
     function getWishlistByUserId(int $id): ?Wishlist;
 
-    function getWishlist(string $orderBy='title', bool $direction= false, int $limit=20): array;
+    function getWishlist();
 
 }
