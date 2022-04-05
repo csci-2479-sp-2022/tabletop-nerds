@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AccountController;
 use App\Http\Controllers\GameController;
+use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\SearchResultController;
 use Illuminate\Support\Facades\Route;
 
@@ -31,8 +32,15 @@ Route::get('/profile', function () {
 
 
 Route::controller(GameController::class)->group(function() {
-    Route::get('/games', 'show')->name('games');
-    Route::get('/game/{id}', 'show')->name('game-info');
+    Route::get('/games', 'showGameList')->name('games');
+    Route::get('/game/{id}', 'showGame')->whereNumber('id')->name('game-info');
+    
+});
+
+Route::controller(ReviewController::class)->group(function(){
+    Route::get('/game/{id}/review', 'show')->whereNumber('id')->middleware('auth')->name('review');
+    Route::post('/game/{id}/review', 'create')->whereNumber('id')->middleware('auth')->name('review-create');
+    Route::delete('/game/{id}/review', 'delete')->whereNumber('id')->middleware('auth')->name('review-delete');
 });
 
 
