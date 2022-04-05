@@ -13,9 +13,9 @@ class SearchResultController extends Controller
     ) {
     }
 
-    public function show()
+    public function show(Request $request)
     {
-        $search = request()->query('game');
+        $search = $request->input('game');
 
         if ($search === null) {
             return view(
@@ -30,8 +30,7 @@ class SearchResultController extends Controller
     public function searchGameDetails(string $title)
     {
         $game = $this->gameInterface->searchGamesByTitle($title);
-
-        $reviews = $this->gameInterface->getReviews($game);
+        
 
         if ($game === null) {
             return view(
@@ -39,10 +38,8 @@ class SearchResultController extends Controller
                 ['result' => $title]
             );
         } else {
-            return view(
-                'game-info',
-                ['game' => $game, 'reviews' => $reviews]
-            );
+            $gameId = $game->id;
+            return redirect()->route('game-info', ['id' => $gameId]);
         }
     }
 }

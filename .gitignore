@@ -14,3 +14,4 @@ yarn-error.log
 /.idea
 /.vscode
 /coverage
+public/css/app.css
