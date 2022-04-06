@@ -2,12 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use App\Contracts\AccountInterface;
-use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Illuminate\Support\Facades\Auth;
-use App\Models\Game;
-use App\Models\Review;
 
 class AccountController extends Controller
 {
@@ -19,27 +15,27 @@ class AccountController extends Controller
     public function show(?int $id = null)
     {
         if (is_int($id)) {
-            return $this->getWishDetails($id);
+            return $this->getWishGameDetails($id);
         }
-        return $this->getWishlist();
+        return $this->getWishlistGames();
     }
 
-
-    private function getWishlist()
-    {   $games = $this->accountInterface->getUserWishlist(Auth::id());
+    private function getWishlistGames()
+    {
+        $user_wishlist = $this->accountInterface->getUserWishlist(Auth::id());
+        $games = [];
+        foreach ($user_wishlist as $wish) {
+            $game = $wish->game()->get()[0];
+            array_push($games, $game);
+        }
         return view('wishlist', [
             'wish' => $games
         ]);
     }
 
-
-    public function getWishDetails(int $id)
+    public function getWishGameDetails(int $id)
     {
-        $game = $this->accountInterface->getWishlistById($id);
-
-        if ($game == null) {
-            throw new NotFoundHttpException();
-        }
-        return view('wish-info', $game);
+        $game = $this->accountInterface->getWishlistGameById($id);
+        return redirect()->route('game-info', ['id' => $game->id]);
     }
 }

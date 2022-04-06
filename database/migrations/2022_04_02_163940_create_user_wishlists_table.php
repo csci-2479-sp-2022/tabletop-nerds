@@ -14,7 +14,6 @@ return new class extends Migration
     public function up()
     {
         Schema::create('wishlists', function (Blueprint $table) {
-            $table->primary(['game_id', 'user_id']);
             $table->timestamps();
             $table->foreignId('game_id')->constrained();
             $table->foreignId('user_id')->constrained();

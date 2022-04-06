@@ -14,35 +14,24 @@ class GameController extends Controller
     )
     {}
 
-    public function show(?int $id = null)
-    {
-        if (is_int($id)) {
-            return $this->getGameDetails($id);
-        }
-
-        return $this->getGameList();
-    }
-
-
-    private function getGameList()
+    public function showGameList()
     {
         return view('game-list', [
             'games' => $this->gameInterface->getGames(),
         ]);
     }
 
-
-    public function getGameDetails(int $id)
+    public function showGame(Request $request, $id)
     {
         $game = $this->gameInterface->getGameById($id);
-
         $reviews = $this->gameInterface->getReviews($game);
+        $user = $request->user();
+        $user ? $user = $user->id : $user = null; //login check
+        $reviewed = Review::where('user_id', $user)->where('game_id', $id)->first() ? true : false;
 
-        if ($game == null) {
-            throw new NotFoundHttpException();
-        }
+        $game ?? throw new NotFoundHttpException();
 
-        return view('game-info', [ 'game' => $game, 'reviews' => $reviews ]);
+        return view('game-info', [ 'game' => $game, 'reviews' => $reviews, 'reviewed' => $reviewed]);
     }
 
 }

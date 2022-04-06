@@ -14,7 +14,7 @@ return new class extends Migration
     public function up()
     {
         Schema::create('reviews', function (Blueprint $table) {
-            $table->primary(['game_id', 'user_id']);
+            $table->id();
             $table->timestamps();
             $table->boolean('recommended');
             $table->tinyText('title');

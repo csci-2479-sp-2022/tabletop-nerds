@@ -13,8 +13,7 @@ use App\Models\Review;
 class AccountControllerTest extends TestCase
 {
     private $wishlist;
-    private $game;
-    private $reviews;
+    private $games;
 
 
 
@@ -23,70 +22,54 @@ class AccountControllerTest extends TestCase
     public function setUp(): void
     {
         parent::setUp();
-        $this->wishlist = self::getWishlist(13);
-        $this->game = self::getGames();
+        $this->wishlist = self::getWishlist();
+        $this->games = self::getGames();
         $this->accountServiceSpy = $this->spy(AccountInterface::class);
+        $this->seed();
     }
 
-    public function getWishlist(int $user_id)
+    public function getWishlist()
     {
-        $user_wishlist = Wishlist::where('user_id', $user_id)->get();
-        $games = [];
-        foreach ($user_wishlist as $wish) {
-            $game = $wish->game()->get()[0];
-            array_push($games, $game);
-        }
-        return $games;
+        $user_wishlist = Wishlist::where('user_id', 13)->get()->first();
+        return $user_wishlist;
     }
 
     private static function getGames()
     {
-        $game = Game::where('id', 1)->get()[0]; //game 1; user 13
+        $game = Game::find(1); //game 1; user 13
         return $game;
     }
 
-    private static function getReviews($game)
+    // public function test_get_wishlist_returns_list(): void
+    // {
+    //     $this->accountServiceSpy->shouldReceive('getUserWishlist')
+    //         ->with(13)
+    //         ->once()
+    //         ->andReturn($this->wishlist);
+    //     $response = $this->get('/wishlist');
+    //     $response->assertStatus(200);
+    //     $response->assertViewHas('wish', $this->games);
+    // }
+
+    public function test_get_wishlist_returns_single_game_by_id(): void
     {
-        $reviewCollection = $game->reviews()->get();
-        return $reviewCollection->all();
-    }
-
-
-    public function test_get_wishlist_returns_list(): void
-    {
-        $this->accountServiceSpy->shouldReceive('getUserWishlist')
-            ->with(13)
-            ->once()
-            ->andReturn($this->wishlist);
-        $response = $this->get('/wishlist');
-        $response->assertStatus(200);
-        $response->assertViewHas('wish', $this->wishlist);
-    }
-
-
-
-    public function test_get_wishlist_returns_single_item_id(): void
-    {
-        $id = 1;
-        $game = $this->wishlist;
         $this->accountServiceSpy->shouldReceive('getWishlistGameById')
             ->with(1)
             ->once()
-            ->andReturn();
+            ->andReturn($this->games);
         $response = $this->get('/wish/1');
-        $response->assertStatus(200);
-        $response->assertViewHas('wish-info', $game);
+        $response->assertStatus(302);
+        $response->assertRedirect('/game/1');
     }
-
 
 
     public function test_get_wishlist_invalid_id(): void
     {
-        $falseId = 5;
+        $falseId = 99;
         $this->accountServiceSpy->shouldReceive('getWishlistGameById')
             ->with($falseId)
             ->andReturn(null);
-        $response = $this->get('/wish/' . $falseId);
+        $response = $this->get('/game/' . $falseId);
         $response->assertStatus(404);
     }
 }
