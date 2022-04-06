@@ -31,6 +31,7 @@ class GameController extends Controller
         ]);
     }
 
+
     public function getGameDetails(int $id)
     {
         $game = $this->gameInterface->getGameById($id);

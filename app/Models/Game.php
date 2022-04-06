@@ -26,7 +26,6 @@ class Game extends Model
 
     public function userWishlist(){
         $user_id = auth()->guard('user')->user()!= null ? auth()->guard('user')->user()->id : null;
-
         return $this->hasMany(Wishlist::class, 'id', 'game_id')->where('user_id', $user_id);
     }
 

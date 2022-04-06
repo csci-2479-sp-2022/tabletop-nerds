@@ -20,16 +20,15 @@
 
                                 @php $countWishlist = 0 @endphp
                                 @if(Auth::check())
-                                    @php
-                                    $countWishlist = App\Models\Wishlist::countWishlist($game->id)
-                                    @endphp
-                                    @if ($countWishlist > 0)
-                                    <i class="heart-like fa fa-heart fa-2x text-red-500" data-status="liked" data-id="{{$game->id}}" /></i>
-                                    @else
-                                    <i class="heart-like far fa-heart fa-2x text-red-500" data-status="unliked" data-id="{{$game->id}}" /></i>
-                                    @endif
+                                @php
+                                $countWishlist = App\Models\Wishlist::countWishlist($game->id)
+                                @endphp
+                                @if ($countWishlist > 0)
+                                <i class="heart-like fa fa-heart fa-2x text-red-500" data-status="liked" data-id="{{$game->id}}" /></i>
+                                @else
+                                <i class="heart-like far fa-heart fa-2x text-red-500" data-status="unliked" data-id="{{$game->id}}" /></i>
                                 @endif
-
+                                @endif
                                 <p class='leading-normal py-2'><b> <span> Publisher: </span> </b> {{ $game->publisher->name}} </p>
                                 <p class='leading-normal py-2'><b> <span> Description: </span> </b> {{ $game->description}}</p>
                                 <p class='leading-normal py-2'><b> <span> Release Year: </span> </b> {{ $game->release_year}}</p>
@@ -71,7 +70,6 @@
             </div>
         </div>
     </div>
-
 </x-app-layout>
 
 <script>

@@ -10,8 +10,8 @@
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                 @foreach($wish as $wish)
                 <div class="flex p-6 bg-white border-b border-gray-200 justify-between items-center">
-                    <div class="text-xl">{{$wish['title']}}</div>
-                    <div class="px-6">{{$wish['content']}}</div>
+                    <div class="px-6">{{$wish['title']}}</div>
+                    <div class="px-6">{{$wish['description']}}</div>
                     <div class="p-6"> <a class="btn-details p-2" href="/wish/{{$wish->id}}"> Details</a> </div>
                 </div>
                 @endforeach

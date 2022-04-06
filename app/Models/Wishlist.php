@@ -14,9 +14,6 @@ class Wishlist extends Model
         'id',
         'user_id',
         'game_id',
-        'title',
-        'img_url',
-        'content'
     ];
 
     public function game()
@@ -28,7 +25,7 @@ class Wishlist extends Model
     {
         return $this->belongsTo(User::class);
     }
-    
+
     public static function countWishlist($game_id){
         $countWishlist = Wishlist::where(['user_id' => Auth::user()->id, 'game_id'=> $game_id])->count();
         return $countWishlist;
