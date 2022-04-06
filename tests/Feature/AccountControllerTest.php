@@ -43,7 +43,15 @@ class AccountControllerTest extends TestCase
         }
         return $games;
     }
-
+    public function test_get_wishlist_invalid_id(): void
+    {
+        $falseId = 99;
+        $this->accountServiceSpy->shouldReceive('getWishlistGameById')
+            ->with($falseId)
+            ->andReturn(null);
+        $response = $this->get('/game/' . $falseId);
+        $response->assertStatus(404);
+    }
     public function test_get_wishlist_returns_list(): void
     {
          $this->accountServiceSpy->shouldReceive('getUserWishlist')
@@ -53,15 +61,5 @@ class AccountControllerTest extends TestCase
         $response = $this->actingAs(User::where('id',13)->get()->first())->get('/wishlist');
         $response->assertStatus(200);
         $response->assertViewHas('wish', $this->games);
-    }
-
-    public function test_get_wishlist_invalid_id(): void
-    {
-        $falseId = 99;
-        $this->accountServiceSpy->shouldReceive('getWishlistGameById')
-            ->with($falseId)
-            ->andReturn(null);
-        $response = $this->get('/game/' . $falseId);
-        $response->assertStatus(404);
     }
 }
