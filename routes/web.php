@@ -57,7 +57,6 @@ Route::post('/search-results', function(){
 
 Route::controller(AccountController::class)->group(function() {
     Route::get('/wishlist', 'show')->name('wishlist');
-    Route::get('/wish/{id}', 'show')->name('wish-info');
 });
 
 

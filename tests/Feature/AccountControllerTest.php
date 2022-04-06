@@ -8,7 +8,7 @@ use Mockery\MockInterface;
 use App\Models\Wishlist;
 use App\Models\Game;
 use App\Models\Review;
-
+use App\Models\User;
 
 class AccountControllerTest extends TestCase
 {
@@ -30,38 +30,30 @@ class AccountControllerTest extends TestCase
 
     public function getWishlist()
     {
-        $user_wishlist = Wishlist::where('user_id', 13)->get()->first();
+        $user_wishlist = Wishlist::where('user_id', 13)->get();
         return $user_wishlist;
     }
 
-    private static function getGames()
+    private function getGames()
     {
-        $game = Game::find(1); //game 1; user 13
-        return $game;
+        $games = [];
+        foreach ($this->wishlist as $wish) {
+            $game = $wish->game()->get()[0];
+            array_push($games, $game);
+        }
+        return $games;
     }
 
-    // public function test_get_wishlist_returns_list(): void
-    // {
-    //     $this->accountServiceSpy->shouldReceive('getUserWishlist')
-    //         ->with(13)
-    //         ->once()
-    //         ->andReturn($this->wishlist);
-    //     $response = $this->get('/wishlist');
-    //     $response->assertStatus(200);
-    //     $response->assertViewHas('wish', $this->games);
-    // }
-
-    public function test_get_wishlist_returns_single_game_by_id(): void
+    public function test_get_wishlist_returns_list(): void
     {
-        $this->accountServiceSpy->shouldReceive('getWishlistGameById')
-            ->with(1)
-            ->once()
-            ->andReturn($this->games);
-        $response = $this->get('/wish/1');
-        $response->assertStatus(302);
-        $response->assertRedirect('/game/1');
+         $this->accountServiceSpy->shouldReceive('getUserWishlist')
+             ->with(13)
+             ->once()
+             ->andReturn($this->wishlist);
+        $response = $this->actingAs(User::where('id',13)->get()->first())->get('/wishlist');
+        $response->assertStatus(200);
+        $response->assertViewHas('wish', $this->games);
     }
-
 
     public function test_get_wishlist_invalid_id(): void
     {
