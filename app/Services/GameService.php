@@ -5,8 +5,6 @@ namespace App\Services;
 use App\Contracts\GameInterface;
 use App\Models\Game;
 use App\Models\Review;
-use App\Models\SearchResult;
-use Illuminate\Support\Arr;
 
 class GameService implements GameInterface
 {
@@ -28,7 +26,7 @@ class GameService implements GameInterface
 
     public function getReviews(?Game $game)
     {
-        return $game ? $game->reviews()->get()->all() : null;    
+        return $game ? $game->reviews()->get()->all() : null;
     }
 
     public function createReview(Game $game, Review $review)

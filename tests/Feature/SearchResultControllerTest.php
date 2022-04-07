@@ -3,8 +3,6 @@
 namespace Tests\Feature;
 
 use App\Contracts\GameInterface;
-use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
 use App\Models\Game;
 use Mockery\MockInterface;
 
@@ -76,7 +74,6 @@ class SearchResultControllerTest extends TestCase
     {
         //act
         $response = $this->call('POST', '/search-results');
-
         //Assert
         $response->assertRedirect('/search-results');
     } // end post Test

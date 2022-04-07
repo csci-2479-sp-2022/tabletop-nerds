@@ -30,7 +30,7 @@ class SearchResultController extends Controller
     public function searchGameDetails(string $title)
     {
         $game = $this->gameInterface->searchGamesByTitle($title);
-        
+
 
         if ($game === null) {
             return view(

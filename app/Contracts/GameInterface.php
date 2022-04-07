@@ -3,9 +3,7 @@
 namespace App\Contracts;
 
 use App\Models\Game;
-use App\Models\Publisher;
 use App\Models\Review;
-use App\Models\SearchResult;
 
 interface GameInterface
 {

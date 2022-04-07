@@ -3,10 +3,6 @@
 namespace Tests\Feature;
 
 use App\Contracts\GameInterface;
-use App\Services\GameService;
-use Illuminate\Foundation\Testing\RefreshDatabase;
-
-use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 use Mockery\MockInterface;
 use App\Models\Game;
@@ -71,6 +67,7 @@ class GameControllerTest extends TestCase
             ->andReturn(
                 $game
             );
+
         $this->gameServiceSpy->shouldReceive('getReviews')
             ->with($this->games[0])
             ->once()
