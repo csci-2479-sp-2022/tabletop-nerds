@@ -2,7 +2,6 @@
 
 namespace Database\Seeders;
 
-use App\Models\Wishlist;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
@@ -22,6 +21,7 @@ class DatabaseSeeder extends Seeder
             GameSeeder::class,
             ReviewSeeder::class,
             WishlistSeeder::class,
+            RatingsSeeder::class,
         ]);
     }
 }

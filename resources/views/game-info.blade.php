@@ -32,8 +32,52 @@
                                         <i class="heart-like far fa-heart fa-2x text-red-500 inline-flex" data-status="unliked" data-id="{{$game->id}}" /></i>
                                         @endif
                                         @endif
-
                                     </div>
+                                <br>
+                                    {{-- @php $initRating = 0 @endphp
+                                        @if(Auth::check())
+                                        @php
+                                        $initRating = App\Models\Ratings::initRating($game->id)
+                                        @endphp
+                                        @if ($initRating > 0)
+                                            <i class="star-rating fa  fa-star fa-2x text-yellow-500 inline-flex" data-status="rated" data-id="{{$game->id}}" /></i>
+                                            <i class="star-rating far fa-star fa-2x text-yellow-500 inline-flex" data-status="unrated" data-id="{{$game->id}}" /></i>
+                                            <i class="star-rating far fa-star fa-2x text-yellow-500 inline-flex" data-status="unrated" data-id="{{$game->id}}" /></i>
+                                            <i class="star-rating far fa-star fa-2x text-yellow-500 inline-flex" data-status="unrated" data-id="{{$game->id}}" /></i>
+                                            <i class="star-rating far fa-star fa-2x text-yellow-500 inline-flex" data-status="unrated" data-id="{{$game->id}}" /></i>
+                                        @elseif ($initRating > 1)
+                                            <i class="star-rating fa fa-star fa-2x text-yellow-500 inline-flex" data-status="rated" data-id="{{$game->id}}" /></i>
+                                            <i class="star-rating fa fa-star fa-2x text-yellow-500 inline-flex" data-status="rated" data-id="{{$game->id}}" /></i>
+                                            <i class="star-rating far fa-star fa-2x text-yellow-500 inline-flex" data-status="unrated" data-id="{{$game->id}}" /></i>
+                                            <i class="star-rating far fa-star fa-2x text-yellow-500 inline-flex" data-status="unrated" data-id="{{$game->id}}" /></i>
+                                            <i class="star-rating far fa-star fa-2x text-yellow-500 inline-flex" data-status="unrated" data-id="{{$game->id}}" /></i>
+                                        @elseif ($initRating > 2)
+                                            <i class="star-rating fa fa-star fa-2x text-yellow-500 inline-flex" data-status="rated" data-id="{{$game->id}}" /></i>
+                                            <i class="star-rating fa fa-star fa-2x text-yellow-500 inline-flex" data-status="rated" data-id="{{$game->id}}" /></i>
+                                            <i class="star-rating fa fa-star fa-2x text-yellow-500 inline-flex" data-status="rated" data-id="{{$game->id}}" /></i>
+                                            <i class="star-rating far fa-star fa-2x text-yellow-500 inline-flex" data-status="unrated" data-id="{{$game->id}}" /></i>
+                                            <i class="star-rating far fa-star fa-2x text-yellow-500 inline-flex" data-status="unrated" data-id="{{$game->id}}" /></i>
+                                        @elseif ($initRating > 3)
+                                            <i class="star-rating fa fa-star fa-2x text-yellow-500 inline-flex" data-status="rated" data-id="{{$game->id}}" /></i>
+                                            <i class="star-rating fa fa-star fa-2x text-yellow-500 inline-flex" data-status="rated" data-id="{{$game->id}}" /></i>
+                                            <i class="star-rating fa fa-star fa-2x text-yellow-500 inline-flex" data-status="rated" data-id="{{$game->id}}" /></i>
+                                            <i class="star-rating fa fa-star fa-2x text-yellow-500 inline-flex" data-status="rated" data-id="{{$game->id}}" /></i>
+                                            <i class="star-rating far fa-star fa-2x text-yellow-500 inline-flex" data-status="unrated" data-id="{{$game->id}}" /></i>
+                                        @elseif ($initRating > 4)
+                                            <i class="star-rating fa fa-star fa-2x text-yellow-500 inline-flex" data-status="rated" data-id="{{$game->id}}" /></i>
+                                            <i class="star-rating fa fa-star fa-2x text-yellow-500 inline-flex" data-status="rated" data-id="{{$game->id}}" /></i>
+                                            <i class="star-rating fa fa-star fa-2x text-yellow-500 inline-flex" data-status="rated" data-id="{{$game->id}}" /></i>
+                                            <i class="star-rating fa fa-star fa-2x text-yellow-500 inline-flex" data-status="rated" data-id="{{$game->id}}" /></i>
+                                            <i class="star-rating fa fa-star fa-2x text-yellow-500 inline-flex" data-status="rated" data-id="{{$game->id}}" /></i>
+                                        @else
+                                            <i class="star-rating far fa-star fa-2x text-yellow-500 inline-flex" data-status="unrated" data-id="{{$game->id}}" /></i>
+                                            <i class="star-rating far fa-star fa-2x text-yellow-500 inline-flex" data-status="unrated" data-id="{{$game->id}}" /></i>
+                                            <i class="star-rating far fa-star fa-2x text-yellow-500 inline-flex" data-status="unrated" data-id="{{$game->id}}" /></i>
+                                            <i class="star-rating far fa-star fa-2x text-yellow-500 inline-flex" data-status="unrated" data-id="{{$game->id}}" /></i>
+                                            <i class="star-rating far fa-star fa-2x text-yellow-500 inline-flex" data-status="unrated" data-id="{{$game->id}}" /></i>
+                                        @endif
+                                        @endif --}}
+                                        <div class="stars"></div>
                                 </div>
 
 
@@ -147,5 +191,107 @@
                 });
             }
         });
+
+        $(".stars").click(function() {
+            let starIcon = $(".star-rating");
+            let user_id = "{{ Auth::id()}}";
+            let game_id = starIcon.attr('data-id');
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }
+            });
+            if ($(this).attr('data-value') == "rated") {
+                $.ajax({
+                    type: "POST",
+                    url: "{{ route('rate-unrate-game') }}",
+                    data: {
+                        rated: true,
+                        game_id: game_id,
+                        user_id: user_id
+                    },
+
+                    success: function(response) {
+                        console.log(response.message)
+                    },
+                    error: function(response) {
+                        console.log(response)
+                    }
+                });
+            } else {
+                $.ajax({
+                    type: "POST",
+                    url: "{{ route('rate-unrate-game') }}",
+                    data: {
+                        rated: false,
+                        game_id: game_id,
+                        user_id: user_id
+                    },
+                    success: function(response) {
+                        console.log(response.message)
+                    },
+                    error: function(response) {
+                        console.log(response)
+                    }
+                });
+            }
+        });
+
+        $.fn.stars = function(options) {
+            var settings = $.extend({
+                stars: 1,
+                emptyIcon: 'far fa-star',
+                filledIcon: 'fa fa-star',
+                color: '#E4AD22',
+                starClass: '',
+                value: 0,
+                click: function() {}
+            }, options);
+
+            for (var x = 0; x < settings.stars; x++) {
+                var icon = $("<i>").addClass(settings.emptyIcon).addClass("star-rating").attr("star-value", x + 1);
+                if (settings.color !== "none") {
+                    icon.css("color", settings.color)
+                }
+                this.append(icon);
+            }
+
+            var stars = this.find("i");
+            stars.on("mouseover", function() {
+                var index = $(this).index() + 1;
+                var starsHovered = stars.slice(0, index);
+                events.removeFilledStars(stars, settings);
+                events.fillStars(starsHovered, settings);
+            }).on("mouseout", function() {
+                events.removeFilledStars(stars, settings);
+                events.fillStars(stars.filter(".selected"), settings);
+                if (settings.text) block.find(".rating-text").html("");
+            }).on("click", function() {
+                var index = $(this).index();
+                settings.value = index + 1;
+                stars.removeClass("selected").attr("data-value", "unrated").slice(0, settings.value).addClass("selected").attr("data-value", "rated").attr("data-id", "{{$game->id}}");
+                settings.click.call(stars.get(index), settings.value);
+            });
+
+            events = {
+                removeFilledStars: function(stars, s) {
+                    stars.removeClass(s.filledIcon).addClass(s.emptyIcon);
+                    return stars;
+                },
+                fillStars: function(stars, s) {
+                    stars.removeClass(s.emptyIcon).addClass(s.filledIcon);
+                    return stars;
+                }
+            };
+            return this;
+        };
+
+
+    }(jQuery));
+</script>
+
+<script>
+    $(".stars").stars({
+        stars: 10
     });
 </script>
