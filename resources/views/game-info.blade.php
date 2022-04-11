@@ -34,50 +34,9 @@
                                         @endif
                                     </div>
                                 <br>
-                                    {{-- @php $initRating = 0 @endphp
                                         @if(Auth::check())
-                                        @php
-                                        $initRating = App\Models\Ratings::initRating($game->id)
-                                        @endphp
-                                        @if ($initRating > 0)
-                                            <i class="star-rating fa  fa-star fa-2x text-yellow-500 inline-flex" data-status="rated" data-id="{{$game->id}}" /></i>
-                                            <i class="star-rating far fa-star fa-2x text-yellow-500 inline-flex" data-status="unrated" data-id="{{$game->id}}" /></i>
-                                            <i class="star-rating far fa-star fa-2x text-yellow-500 inline-flex" data-status="unrated" data-id="{{$game->id}}" /></i>
-                                            <i class="star-rating far fa-star fa-2x text-yellow-500 inline-flex" data-status="unrated" data-id="{{$game->id}}" /></i>
-                                            <i class="star-rating far fa-star fa-2x text-yellow-500 inline-flex" data-status="unrated" data-id="{{$game->id}}" /></i>
-                                        @elseif ($initRating > 1)
-                                            <i class="star-rating fa fa-star fa-2x text-yellow-500 inline-flex" data-status="rated" data-id="{{$game->id}}" /></i>
-                                            <i class="star-rating fa fa-star fa-2x text-yellow-500 inline-flex" data-status="rated" data-id="{{$game->id}}" /></i>
-                                            <i class="star-rating far fa-star fa-2x text-yellow-500 inline-flex" data-status="unrated" data-id="{{$game->id}}" /></i>
-                                            <i class="star-rating far fa-star fa-2x text-yellow-500 inline-flex" data-status="unrated" data-id="{{$game->id}}" /></i>
-                                            <i class="star-rating far fa-star fa-2x text-yellow-500 inline-flex" data-status="unrated" data-id="{{$game->id}}" /></i>
-                                        @elseif ($initRating > 2)
-                                            <i class="star-rating fa fa-star fa-2x text-yellow-500 inline-flex" data-status="rated" data-id="{{$game->id}}" /></i>
-                                            <i class="star-rating fa fa-star fa-2x text-yellow-500 inline-flex" data-status="rated" data-id="{{$game->id}}" /></i>
-                                            <i class="star-rating fa fa-star fa-2x text-yellow-500 inline-flex" data-status="rated" data-id="{{$game->id}}" /></i>
-                                            <i class="star-rating far fa-star fa-2x text-yellow-500 inline-flex" data-status="unrated" data-id="{{$game->id}}" /></i>
-                                            <i class="star-rating far fa-star fa-2x text-yellow-500 inline-flex" data-status="unrated" data-id="{{$game->id}}" /></i>
-                                        @elseif ($initRating > 3)
-                                            <i class="star-rating fa fa-star fa-2x text-yellow-500 inline-flex" data-status="rated" data-id="{{$game->id}}" /></i>
-                                            <i class="star-rating fa fa-star fa-2x text-yellow-500 inline-flex" data-status="rated" data-id="{{$game->id}}" /></i>
-                                            <i class="star-rating fa fa-star fa-2x text-yellow-500 inline-flex" data-status="rated" data-id="{{$game->id}}" /></i>
-                                            <i class="star-rating fa fa-star fa-2x text-yellow-500 inline-flex" data-status="rated" data-id="{{$game->id}}" /></i>
-                                            <i class="star-rating far fa-star fa-2x text-yellow-500 inline-flex" data-status="unrated" data-id="{{$game->id}}" /></i>
-                                        @elseif ($initRating > 4)
-                                            <i class="star-rating fa fa-star fa-2x text-yellow-500 inline-flex" data-status="rated" data-id="{{$game->id}}" /></i>
-                                            <i class="star-rating fa fa-star fa-2x text-yellow-500 inline-flex" data-status="rated" data-id="{{$game->id}}" /></i>
-                                            <i class="star-rating fa fa-star fa-2x text-yellow-500 inline-flex" data-status="rated" data-id="{{$game->id}}" /></i>
-                                            <i class="star-rating fa fa-star fa-2x text-yellow-500 inline-flex" data-status="rated" data-id="{{$game->id}}" /></i>
-                                            <i class="star-rating fa fa-star fa-2x text-yellow-500 inline-flex" data-status="rated" data-id="{{$game->id}}" /></i>
-                                        @else
-                                            <i class="star-rating far fa-star fa-2x text-yellow-500 inline-flex" data-status="unrated" data-id="{{$game->id}}" /></i>
-                                            <i class="star-rating far fa-star fa-2x text-yellow-500 inline-flex" data-status="unrated" data-id="{{$game->id}}" /></i>
-                                            <i class="star-rating far fa-star fa-2x text-yellow-500 inline-flex" data-status="unrated" data-id="{{$game->id}}" /></i>
-                                            <i class="star-rating far fa-star fa-2x text-yellow-500 inline-flex" data-status="unrated" data-id="{{$game->id}}" /></i>
-                                            <i class="star-rating far fa-star fa-2x text-yellow-500 inline-flex" data-status="unrated" data-id="{{$game->id}}" /></i>
+                                        <div class="stars" data-rating="{{$userRating}}"></div>
                                         @endif
-                                        @endif --}}
-                                        <div class="stars"></div>
                                 </div>
 
 
@@ -192,51 +151,6 @@
             }
         });
 
-        $(".stars").click(function() {
-            let starIcon = $(".star-rating");
-            let user_id = "{{ Auth::id()}}";
-            let game_id = starIcon.attr('data-id');
-            $.ajaxSetup({
-                headers: {
-                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                }
-            });
-            if ($(this).attr('data-value') == "rated") {
-                $.ajax({
-                    type: "POST",
-                    url: "{{ route('rate-unrate-game') }}",
-                    data: {
-                        rated: true,
-                        game_id: game_id,
-                        user_id: user_id
-                    },
-
-                    success: function(response) {
-                        console.log(response.message)
-                    },
-                    error: function(response) {
-                        console.log(response)
-                    }
-                });
-            } else {
-                $.ajax({
-                    type: "POST",
-                    url: "{{ route('rate-unrate-game') }}",
-                    data: {
-                        rated: false,
-                        game_id: game_id,
-                        user_id: user_id
-                    },
-                    success: function(response) {
-                        console.log(response.message)
-                    },
-                    error: function(response) {
-                        console.log(response)
-                    }
-                });
-            }
-        });
-
         $.fn.stars = function(options) {
             var settings = $.extend({
                 stars: 1,
@@ -247,11 +161,17 @@
                 value: 0,
                 click: function() {}
             }, options);
-
+            let user_rating = $(this).attr('data-rating');
+            console.log(user_rating);
             for (var x = 0; x < settings.stars; x++) {
-                var icon = $("<i>").addClass(settings.emptyIcon).addClass("star-rating").attr("star-value", x + 1);
+                if(x < user_rating){
+                    var icon = $("<i>").addClass(settings.filledIcon).addClass("star-rating").attr("star-value", x + 1);
+                    
+                }else{
+                    var icon = $("<i>").addClass(settings.emptyIcon).addClass("star-rating").attr("star-value", x + 1);
+                }
                 if (settings.color !== "none") {
-                    icon.css("color", settings.color)
+                icon.css("color", settings.color)
                 }
                 this.append(icon);
             }
@@ -271,6 +191,34 @@
                 settings.value = index + 1;
                 stars.removeClass("selected").attr("data-value", "unrated").slice(0, settings.value).addClass("selected").attr("data-value", "rated").attr("data-id", "{{$game->id}}");
                 settings.click.call(stars.get(index), settings.value);
+
+                let starIcon = $(this);
+                let user_id = "{{ Auth::id()}}";
+                let game_id = starIcon.attr('data-id');
+                let rating_value = starIcon.attr('star-value');
+                
+                $.ajaxSetup({
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    }
+                });
+                $.ajax({
+                    type: "POST",
+                    url: "{{ route('rate-unrate-game') }}",
+                    data: {
+                        rated: rating_value,
+                        game_id: game_id,
+                        user_id: user_id
+                    },
+
+                    success: function(response) {
+                        console.log(response.message)
+                    },
+                    error: function(response) {
+                        console.log(response)
+                    }
+                });
+            
             });
 
             events = {
@@ -285,7 +233,6 @@
             };
             return this;
         };
-
 
     }(jQuery));
 </script>

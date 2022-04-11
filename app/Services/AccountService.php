@@ -23,9 +23,9 @@ class AccountService implements AccountInterface
         return Game::find($id);
     }
 
-    public function getUserRating(int $user_id)
+    public function getUserRating(?int $user_id, int $game_id)
     {
-        $user_rating = Ratings::where('user_id', $user_id)->get();
+        $user_rating = Ratings::where('user_id', $user_id)->where('game_id', $game_id)->first();
         return $user_rating;
     }
 
