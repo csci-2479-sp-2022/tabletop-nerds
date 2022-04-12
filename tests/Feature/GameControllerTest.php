@@ -6,9 +6,11 @@ use App\Contracts\GameInterface;
 use Tests\TestCase;
 use Mockery\MockInterface;
 use App\Models\Game;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class GameControllerTest extends TestCase
 {
+    use RefreshDatabase;
 
     private  array $games;
 
@@ -31,6 +33,7 @@ class GameControllerTest extends TestCase
     public function setUp(): void
     {
         parent::setUp();
+        $this->seed();
 
         $this->games = self::getGames();
 
@@ -41,7 +44,6 @@ class GameControllerTest extends TestCase
 
     public function test_get_games()
     {
-        $this->seed();
         //arrange
         $this->gameServiceSpy->shouldReceive('getGames')
             ->once()
