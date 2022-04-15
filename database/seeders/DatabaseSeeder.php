@@ -21,7 +21,7 @@ class DatabaseSeeder extends Seeder
             GameSeeder::class,
             ReviewSeeder::class,
             WishlistSeeder::class,
-            //RatingsSeeder::class,
+            RatingsSeeder::class,
         ]);
     }
 }

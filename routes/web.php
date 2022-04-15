@@ -46,7 +46,7 @@ Route::controller(ReviewController::class)->group(function(){
 });
 
 
-Route::post('/like-unlike-game', [WishlistController::class, 'updateWishlist'])
+Route::post('/like-unlike-game', [WishlistController::class, 'updateWishlist'])->middleware('auth')
 ->name('like-unlike-game');
 
 Route::get('/search-results', [SearchResultController::class, 'show'])
@@ -60,7 +60,7 @@ Route::controller(AccountController::class)->group(function() {
     Route::get('/wishlist', 'show')->name('wishlist');
 });
 
-Route::post('/rate-unrate-game', [RatingsController::class, 'updateRating'])
+Route::post('/rate-unrate-game', [RatingsController::class, 'updateRating'])->middleware('auth')
 ->name('rate-unrate-game');
 
 require __DIR__.'/auth.php';

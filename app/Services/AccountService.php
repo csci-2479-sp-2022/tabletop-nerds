@@ -33,4 +33,11 @@ class AccountService implements AccountInterface
     {
         return Game::find($id);
     }
+
+    public function getAverageRatingOfGame(int $id)
+    {
+        $averageRating = Ratings::where('game_id', $id)->avg('game_rating');
+
+        return number_format((float)$averageRating, 1, '.', '');
+    }
 }
