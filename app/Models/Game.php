@@ -29,6 +29,11 @@ class Game extends Model
         return $this->hasMany(Wishlist::class, 'id', 'game_id')->where('user_id', $user_id);
     }
 
+    public function userRating(){
+        $user_id = auth()->guard('user')->user()!= null ? auth()->guard('user')->user()->id : null;
+        return $this->hasMany(Ratings::class, 'id', 'game_id')->where('user_id', $user_id);
+    }
+
     public function categoryList(): string
     {
         $catList = [];

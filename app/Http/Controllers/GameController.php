@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Contracts\AccountInterface;
 use Illuminate\Http\Request;
 use App\Contracts\GameInterface;
 use App\Models\Review;
@@ -10,7 +11,8 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 class GameController extends Controller
 {
     public function __construct(
-        private GameInterface $gameInterface
+        private GameInterface $gameInterface, 
+        private AccountInterface $accountInterface
     )
     {}
 
@@ -28,10 +30,11 @@ class GameController extends Controller
         $user = $request->user();
         $user ? $user = $user->id : $user = null; //login check
         $reviewed = Review::where('user_id', $user)->where('game_id', $id)->first() ? true : false;
-
+        $userRating = $this->accountInterface->getUserRating($user, $id);
+        $userRating ? $userRating = $userRating->game_rating : null;
         $game ?? throw new NotFoundHttpException();
 
-        return view('game-info', [ 'game' => $game, 'reviews' => $reviews, 'reviewed' => $reviewed]);
+        return view('game-info', [ 'game' => $game, 'reviews' => $reviews, 'reviewed' => $reviewed, 'userRating' => $userRating]);
     }
 
 }

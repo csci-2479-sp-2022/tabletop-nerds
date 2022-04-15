@@ -32,8 +32,11 @@
                                         <i class="heart-like far fa-heart fa-2x text-red-500 inline-flex" data-status="unliked" data-id="{{$game->id}}" /></i>
                                         @endif
                                         @endif
-
                                     </div>
+                                <br>
+                                        @if(Auth::check())
+                                        <div class="stars" data-rating="{{$userRating}}"></div>
+                                        @endif
                                 </div>
 
 
@@ -147,5 +150,95 @@
                 });
             }
         });
+
+        $.fn.stars = function(options) {
+            var settings = $.extend({
+                stars: 1,
+                emptyIcon: 'far fa-star',
+                filledIcon: 'fa fa-star',
+                color: '#E4AD22',
+                starClass: '',
+                value: 0,
+                click: function() {}
+            }, options);
+            let user_rating = $(this).attr('data-rating');
+            console.log(user_rating);
+            for (var x = 0; x < settings.stars; x++) {
+                if(x < user_rating){
+                    var icon = $("<i>").addClass(settings.filledIcon).addClass("star-rating").attr("star-value", x + 1);
+                    
+                }else{
+                    var icon = $("<i>").addClass(settings.emptyIcon).addClass("star-rating").attr("star-value", x + 1);
+                }
+                if (settings.color !== "none") {
+                icon.css("color", settings.color)
+                }
+                this.append(icon);
+            }
+
+            var stars = this.find("i");
+            stars.on("mouseover", function() {
+                var index = $(this).index() + 1;
+                var starsHovered = stars.slice(0, index);
+                events.removeFilledStars(stars, settings);
+                events.fillStars(starsHovered, settings);
+            }).on("mouseout", function() {
+                events.removeFilledStars(stars, settings);
+                events.fillStars(stars.filter(".selected"), settings);
+                if (settings.text) block.find(".rating-text").html("");
+            }).on("click", function() {
+                var index = $(this).index();
+                settings.value = index + 1;
+                stars.removeClass("selected").attr("data-value", "unrated").slice(0, settings.value).addClass("selected").attr("data-value", "rated").attr("data-id", "{{$game->id}}");
+                settings.click.call(stars.get(index), settings.value);
+
+                let starIcon = $(this);
+                let user_id = "{{ Auth::id()}}";
+                let game_id = starIcon.attr('data-id');
+                let rating_value = starIcon.attr('star-value');
+                
+                $.ajaxSetup({
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    }
+                });
+                $.ajax({
+                    type: "POST",
+                    url: "{{ route('rate-unrate-game') }}",
+                    data: {
+                        rated: rating_value,
+                        game_id: game_id,
+                        user_id: user_id
+                    },
+
+                    success: function(response) {
+                        console.log(response.message)
+                    },
+                    error: function(response) {
+                        console.log(response)
+                    }
+                });
+            
+            });
+
+            events = {
+                removeFilledStars: function(stars, s) {
+                    stars.removeClass(s.filledIcon).addClass(s.emptyIcon);
+                    return stars;
+                },
+                fillStars: function(stars, s) {
+                    stars.removeClass(s.emptyIcon).addClass(s.filledIcon);
+                    return stars;
+                }
+            };
+            return this;
+        };
+
+    }(jQuery));
+</script>
+
+<script>
+    $(".stars").stars({
+        stars: 10
     });
 </script>

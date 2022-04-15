@@ -13,12 +13,12 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('game_user', function (Blueprint $table) {
+        Schema::create('ratings', function (Blueprint $table) {
             $table->id();
+            $table->timestamps();
+            $table->integer('game_rating');
             $table->foreignId('game_id')->constrained();
             $table->foreignId('user_id')->constrained();
-            $table->decimal('game_rating', 2, 1);
-            $table->timestamps();
         });
     }
 
@@ -29,6 +29,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('game_user');
+        Schema::dropIfExists('ratings');
     }
 };

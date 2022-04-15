@@ -4,12 +4,15 @@ namespace Tests\Feature;
 
 use App\Contracts\GameInterface;
 use App\Models\Game;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 use Mockery\MockInterface;
 
 use Tests\TestCase;
 
 class SearchResultControllerTest extends TestCase
 {
+    use RefreshDatabase;
+
     private MockInterface $gameServiceSpy;
 
     private $searchResult;
@@ -29,6 +32,7 @@ class SearchResultControllerTest extends TestCase
     protected function setUp(): void
     {
         parent::setUp();
+        $this->seed();
 
         $this->searchResult = self::getSearchResult();
 

@@ -9,9 +9,12 @@ use App\Models\Wishlist;
 use App\Models\Game;
 use App\Models\Review;
 use App\Models\User;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class AccountControllerTest extends TestCase
 {
+    use RefreshDatabase;
+
     private $wishlist;
     private $games;
 
@@ -55,10 +58,10 @@ class AccountControllerTest extends TestCase
     public function test_get_wishlist_returns_list(): void
     {
          $this->accountServiceSpy->shouldReceive('getUserWishlist')
-             ->with(13)
+             ->with(1)
              ->once()
              ->andReturn($this->wishlist);
-        $response = $this->actingAs(User::where('id',13)->get()->first())->get('/wishlist');
+        $response = $this->actingAs(User::find(1))->get('/wishlist');
         $response->assertStatus(200);
         $response->assertViewHas('wish', $this->games);
     }

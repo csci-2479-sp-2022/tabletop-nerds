@@ -3,6 +3,7 @@
 use App\Http\Controllers\AccountController;
 use App\Http\Controllers\GameController;
 use App\Http\Controllers\ReviewController;
+use App\Http\Controllers\RatingsController;
 use App\Http\Controllers\SearchResultController;
 use App\Http\Controllers\WishlistController;
 use Illuminate\Support\Facades\Route;
@@ -59,5 +60,7 @@ Route::controller(AccountController::class)->group(function() {
     Route::get('/wishlist', 'show')->name('wishlist');
 });
 
+Route::post('/rate-unrate-game', [RatingsController::class, 'updateRating'])
+->name('rate-unrate-game');
 
 require __DIR__.'/auth.php';
