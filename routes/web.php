@@ -52,10 +52,6 @@ Route::post('/like-unlike-game', [WishlistController::class, 'updateWishlist'])
 Route::get('/search-results', [SearchResultController::class, 'show'])
 ->name('results');
 
-Route::post('/search-results', function(){
-    return redirect()->route('results');
-});
-
 Route::controller(AccountController::class)->group(function() {
     Route::get('/wishlist', 'show')->name('wishlist');
 });

@@ -46,15 +46,7 @@ class AccountControllerTest extends TestCase
         }
         return $games;
     }
-    public function test_get_wishlist_invalid_id(): void
-    {
-        $falseId = 99;
-        $this->accountServiceSpy->shouldReceive('getWishlistGameById')
-            ->with($falseId)
-            ->andReturn(null);
-        $response = $this->get('/game/' . $falseId);
-        $response->assertStatus(404);
-    }
+    
     public function test_get_wishlist_returns_list(): void
     {
          $this->accountServiceSpy->shouldReceive('getUserWishlist')
@@ -64,5 +56,39 @@ class AccountControllerTest extends TestCase
         $response = $this->actingAs(User::find(1))->get('/wishlist');
         $response->assertStatus(200);
         $response->assertViewHas('wish', $this->games);
+    }
+
+    
+    public function test_add_rating()
+    {
+        $user = '1';
+        $gameId = '1';
+        $rated = '5';
+
+        $response = $this->actingAs(User::find(1))->post('/rate-unrate-game', ['game_id' => $gameId, 'user_id' => $user, 'rated' => $rated]);
+        
+        $response->assertSuccessful();
+        $this->assertDatabaseHas('ratings', ['game_id' => $gameId, 'user_id' => $user, 'game_rating' => $rated]);
+
+    }
+
+    public function test_add_to_wishlist()
+    {
+        $wish = Wishlist::where('user_id', 1)->where('game_id', 1)->first();
+        $wish->delete();
+        $response = $this->actingAs(User::find(1))->post('/like-unlike-game', ['game_id' => '1', 'user_id' => '1']);
+        
+        $response->assertOk();
+        $this->assertDatabaseHas('wishlists', ['game_id' => '1', 'user_id' => '1']);
+    }
+
+    public function test_delete_from_wishlist()
+    {   
+        Wishlist::factory()->count(1)->for(Game::find(1))->for(User::find(1))->create();
+        $wish = Wishlist::where('user_id', 1)->where('game_id', 1)->first();
+        $response = $this->actingAs(User::find(1))->post('/like-unlike-game', ['game_id' => '1', 'user_id' => '1']);
+        
+        $response->assertSuccessful();
+        $this->assertModelMissing($wish);
     }
 }

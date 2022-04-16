@@ -16,19 +16,16 @@ class RatingsController extends Controller
 
     public function updateRating(Request $req)
     {
-        if ($req->ajax()) {
-            $data = $req->all();
-            $initRating = Ratings::initRating($data['game_id']);
-            $game_id = $data['game_id'];
-            $user_id = $data['user_id'];
-            $ratings = $this->accountInterface->getUserRating($user_id, $game_id) ?? new Ratings;
-            
-            $ratings->game_id = $data['game_id'];
-            $ratings->user_id = $data['user_id'];
-            $ratings->game_rating = $data['rated'];
-            $ratings->save();
-            return response()->json(['action' => 'rate', 'message' => 'Rating Added Successfully!']);
-            
-        }
+        $data = $req->all();
+        $initRating = Ratings::initRating($data['game_id']);
+        $game_id = $data['game_id'];
+        $user_id = $data['user_id'];
+        $ratings = $this->accountInterface->getUserRating($user_id, $game_id) ?? new Ratings;
+        
+        $ratings->game_id = $data['game_id'];
+        $ratings->user_id = $data['user_id'];
+        $ratings->game_rating = $data['rated'];
+        $ratings->save();
+        return response()->json(['action' => 'rate', 'message' => 'Rating Added Successfully!']);
     }
 }
