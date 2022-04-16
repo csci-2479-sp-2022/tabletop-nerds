@@ -17,7 +17,7 @@ class RatingsFactory extends Factory
     public function definition()
     {
         return [
-            //
+            'game_rating' => $this-> faker->numberBetween(1, 10)
         ];
     }
 }

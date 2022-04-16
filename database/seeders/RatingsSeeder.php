@@ -28,6 +28,7 @@ class RatingsSeeder extends Seeder
         $ratingFactory = Ratings::factory();
         $ratingFactory->count(1)->for($game1)->for($userArray[0])->create();
         $ratingFactory->count(1)->for($game2)->for($userArray[1])->create();
+        $ratingFactory->count(1)->for($game1)->for($userArray[1])->create();
         $ratingFactory->count(1)->for($game3)->for($userArray[3])->create();
         $ratingFactory->count(1)->for($game4)->for($userArray[4])->create();
 

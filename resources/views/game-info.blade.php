@@ -1,57 +1,54 @@
 <x-app-layout>
     <x-slot name="header">
-        <a href="/games"> &#8592; Back to Games</a>
-        <h1 class="font-semibold text-xl text-gray-900 leading-tight text-center">
-            {{$game->title}}
-        </h1>
+        <div class="sm:text-sm">
+            <a href="/games"> &#8592; Back to Games</a>
+        </div>
+        <div class=" md: m-4">
+            <h1 class="font-semibold text-xl text-center">
+                <span class="rounded bg-red-900 text-white p-3 mask mask-pentagon"> <b>{{ $averageRating }}</b></span>
+                <span><b>{{ $game->title }} ({{ $game->release_year}})</b></span>
+            </h1>
+        </div>
+
     </x-slot>
 
     <div class="py-12 py-4 ">
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+        <div class="max-w-7xl mx-auto lg:px-8 sm:px-4">
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
-                <div>
-                    <div class='relative m-0 flex p-6'>
-                        <div class='flex-no-shrink w-1/3 h-auto py-2'>
-                            <img alt='{{$game->description}}' class='block mx-auto' src='{{$game->img_url}}'>
-                        </div>
-                        <div class='flex-1 card-block relative'>
-                            <div class="px-4 text-lg">
-                                <div class="flex">
-                                    <div class="w-5/6">
-                                        <p class='leading-normal py-2'><b> <span> Name: </span> </b> {{ $game->title}}</p>
-                                    </div>
-                                    <div class="w-1/6 flex text-left">
-                                        @php $countWishlist = 0 @endphp
-                                        @if(Auth::check())
-                                        @php
-                                        $countWishlist = App\Models\Wishlist::countWishlist($game->id)
-                                        @endphp
-                                        @if ($countWishlist > 0)
-                                        <i class="heart-like fa fa-heart fa-2x text-red-500 inline-flex" data-status="liked" data-id="{{$game->id}}" /></i>
-                                        @else
-                                        <i class="heart-like far fa-heart fa-2x text-red-500 inline-flex" data-status="unliked" data-id="{{$game->id}}" /></i>
-                                        @endif
-                                        @endif
-                                    </div>
-                                <br>
-                                        @if(Auth::check())
-                                        <div class="stars" data-rating="{{$userRating}}"></div>
-                                        @endif
+                <div class='relative m-0 lg:flex p-6'>
+                    <div class='flex-no-shrink lg:w-1/3 h-auto py-2'>
+                        <img alt='{{$game->description}}' class='block mx-auto' src='{{$game->img_url}}'>
+                    </div>
+                    <div class='flex-1 card-block relative'>
+                        <div class="px-4 text-lg">
+
+                            <p class='leading-normal py-2'><b> <span> Publisher: </span> </b> {{ $game->publisher->name}} </p>
+                            <p class='leading-normal py-2'><b> <span> Description: </span> </b> {{ $game->description}}</p>
+                            <p class='leading-normal py-2'><b> <span> Category: </span> </b> {{ $game->categoryList()}}</p>
+                            <p class='leading-normal py-2'><b> <span> Complexity rating: </span> </b> {{ $game->complexity_rating}}</p>
+                            <p class='leading-normal py-2'><b> <span> Estimated playing time: </span> </b> {{ $game->playing_time_minutes}} min</p>
+                            <p class='leading-normal py-2'><b> <span> Players number: </span> </b> {{ $game->min_number_players}} to {{ $game->max_number_players}} </p>
+                            <p class='leading-normal py-2'><b> <span> Price: </span> </b> ${{ $game->cost}}</p>
+
+                            @if(Auth::check())
+                            <div class="grid lg:grid-cols-2 gap-4  sm:grid-cols-1 sm:gap-4 ">
+                                <div>
+                                    <p> <b> <span> My rating: </span></b><span class="stars" data-rating="{{$userRating}}"></span> </p>
                                 </div>
-
-
-
-
-
-                                <p class='leading-normal py-2'><b> <span> Publisher: </span> </b> {{ $game->publisher->name}} </p>
-                                <p class='leading-normal py-2'><b> <span> Description: </span> </b> {{ $game->description}}</p>
-                                <p class='leading-normal py-2'><b> <span> Release Year: </span> </b> {{ $game->release_year}}</p>
-                                <p class='leading-normal py-2'><b> <span> Category: </span> </b> {{ $game->categoryList()}}</p>
-                                <p class='leading-normal py-2'><b> <span> Complexity rating: </span> </b> {{ $game->complexity_rating}}</p>
-                                <p class='leading-normal py-2'><b> <span> Estimated playing time: </span> </b> {{ $game->playing_time_minutes}} min</p>
-                                <p class='leading-normal py-2'><b> <span> Players number: </span> </b> {{ $game->min_number_players}} to {{ $game->max_number_players}} </p>
-                                <p class='leading-normal py-2'><b> <span> Price: </span> </b> ${{ $game->cost}}</p>
+                                @php $countWishlist = 0;
+                                $countWishlist = App\Models\Wishlist::countWishlist($game->id)
+                                @endphp
+                                <div>
+                                    <p> <b> <span> My favorite: </span></b>
+                                        @if ($countWishlist > 0)
+                                        <i class="heart-like fa fa-heart fa-1x text-red-500 inline-flex" data-status="liked" data-id="{{$game->id}}" /></i>
+                                        @else
+                                        <i class="heart-like far fa-heart fa-1x text-red-500 inline-flex" data-status="unliked" data-id="{{$game->id}}" /></i>
+                                        @endif
+                                    </p>
+                                </div>
                             </div>
+                            @endif
                         </div>
                     </div>
                 </div>
@@ -73,9 +70,9 @@
                     @endif
                 </div>
             </div>
-            <div class="columns-1 sm:columns-2">
+            <div class="columns-1 ">
                 @foreach($reviews as $review)
-                <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg flex-col p-6 border border-gray-200">
+                <div class="bg-white overflow-hidden shadow-sm md:rounded-lg flex-col p-6 border border-gray-200">
                     <div class="text-2xl text-center border-b border-gray-200">{{$review->title}}</div>
                     <div class="flex items-center">
                         <div class="p-4 w-5/6">{{$review->body}}</div>
@@ -164,14 +161,14 @@
             let user_rating = $(this).attr('data-rating');
             console.log(user_rating);
             for (var x = 0; x < settings.stars; x++) {
-                if(x < user_rating){
+                if (x < user_rating) {
                     var icon = $("<i>").addClass(settings.filledIcon).addClass("star-rating").attr("star-value", x + 1);
-                    
-                }else{
+
+                } else {
                     var icon = $("<i>").addClass(settings.emptyIcon).addClass("star-rating").attr("star-value", x + 1);
                 }
                 if (settings.color !== "none") {
-                icon.css("color", settings.color)
+                    icon.css("color", settings.color)
                 }
                 this.append(icon);
             }
@@ -196,7 +193,7 @@
                 let user_id = "{{ Auth::id()}}";
                 let game_id = starIcon.attr('data-id');
                 let rating_value = starIcon.attr('star-value');
-                
+
                 $.ajaxSetup({
                     headers: {
                         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -218,7 +215,7 @@
                         console.log(response)
                     }
                 });
-            
+
             });
 
             events = {
