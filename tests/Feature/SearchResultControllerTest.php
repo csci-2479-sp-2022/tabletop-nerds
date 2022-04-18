@@ -73,13 +73,4 @@ class SearchResultControllerTest extends TestCase
             'invalid'
         );
     } //end search invalid game Test
-
-    public function test_post_search_result()
-    {
-        //act
-        $response = $this->call('POST', '/search-results');
-        //Assert
-        $response->assertRedirect('/search-results');
-    } // end post Test
-
 } // end

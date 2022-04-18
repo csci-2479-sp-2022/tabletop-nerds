@@ -42,7 +42,7 @@ class GameControllerTest extends TestCase
 
     }
 
-    public function test_get_games()
+    public function test_showGameList()
     {
         //arrange
         $this->gameServiceSpy->shouldReceive('getGames')
@@ -59,33 +59,31 @@ class GameControllerTest extends TestCase
         );
     }
 
-    public function test_get_game_by_id()
+    public function test_showGame()
     {
         //arrange
         $game = $this->games[0];
         $this->gameServiceSpy->shouldReceive('getGameById')
-            ->with(1)
-            ->once()
-            ->andReturn(
-                $game
-            );
-
+        ->with(1)
+        ->once()
+        ->andReturn(
+            $game
+        );
         $this->gameServiceSpy->shouldReceive('getReviews')
-            ->with($this->games[0])
-            ->once()
-            ->andReturn(
-                $this->getReviews($game)
-            );
-
+        ->with($this->games[0])
+        ->once()
+        ->andReturn(
+            $this->getReviews($game)
+        );
         //act
         $response = $this->get('/game/1');
 
         //assert
         $response->assertStatus(200);
-        $response->assertViewHas(
-            'game', $this->games[0]
-
-        );
+        $response->assertViewHasAll([
+            'game' => $this->games[0],
+            'reviews' => $this->getReviews($game)
+        ]);
     }
 
     public function test_get_game_with_invalid_id()
@@ -99,4 +97,11 @@ class GameControllerTest extends TestCase
         $response = $this->get('/game/99');
         $response->assertStatus(404);
     }
+
+    public function test_get_game_with_invalid_id_string()
+    {
+        $response = $this->get('/game/review');
+        $response->assertStatus(404);
+    }
+
 }
