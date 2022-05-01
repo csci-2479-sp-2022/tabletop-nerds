@@ -29,17 +29,18 @@ class SearchResultController extends Controller
 
     public function searchGameDetails(string $title)
     {
-        $game = $this->gameInterface->searchGamesByTitle($title);
+        $games = $this->gameInterface->searchGamesByTitle($title);
 
-
-        if ($game === null) {
+        if (count($games) < 1) {
             return view(
                 'search-results',
                 ['result' => $title]
             );
         } else {
-            $gameId = $game->id;
-            return redirect()->route('game-info', ['id' => $gameId]);
+            return view('game-list', [
+                'games' => $games,
+
+            ]);
         }
     }
 }

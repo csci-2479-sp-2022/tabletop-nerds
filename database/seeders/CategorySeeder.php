@@ -25,13 +25,7 @@ class CategorySeeder extends Seeder
             [
                 'name'=> 'Legacy',
                 'code' => 'LGS'
-            ],
-            // ['
-            //     name'=>'Drafting',
-            // ],
-            // [
-            //     'name'=>'Roll-and-move'
-            // ]
+            ]
         ]);
     }
 }

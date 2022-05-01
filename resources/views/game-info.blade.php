@@ -64,9 +64,9 @@
                 </div>
                 <div class="text-right px-4">
                     @if($reviewed)
-                    <a class="inline-flex items-center px-4 py-2 bg-blue-600 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-gray-700 active:bg-gray-900 focus:outline-none focus:border-gray-900 focus:ring ring-gray-300 disabled:opacity-25 transition ease-in-out duration-150" href="/game/{{$game->id}}/review">Edit review</a>
+                    <a class="inline-flex items-center px-4 py-2 bg-gray-800  border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-gray-700 active:bg-gray-900 focus:outline-none focus:border-gray-900 focus:ring ring-gray-300 disabled:opacity-25 transition ease-in-out duration-150" href="/game/{{$game->id}}/review">Edit review</a>
                     @else
-                    <a class="inline-flex items-center px-4 py-2 bg-green-600 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-gray-700 active:bg-gray-900 focus:outline-none focus:border-gray-900 focus:ring ring-gray-300 disabled:opacity-25 transition ease-in-out duration-150" href="/game/{{$game->id}}/review">Leave a review</a>
+                    <a class="inline-flex items-center px-4 py-2 bg-gray-800  border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-gray-700 active:bg-gray-900 focus:outline-none focus:border-gray-900 focus:ring ring-gray-300 disabled:opacity-25 transition ease-in-out duration-150" href="/game/{{$game->id}}/review">Leave a review</a>
                     @endif
                 </div>
             </div>
@@ -78,7 +78,7 @@
                         <div class="p-4 w-5/6">{{$review->body}}</div>
                         <div class="w-1/6">
                             @if (($review->recommended) == true)
-                            <svg class="fill-green-600" xmlns="http://www.w3.org/2000/svg" viewbox="0 0 44 44" width="100" height="100">
+                            <svg class="fill-yellow-400" xmlns="http://www.w3.org/2000/svg" viewbox="0 0 44 44" width="100" height="100">
                                 <path d="M25.334,17.932c0,1.291-1.193,2.104-2.486,2.104h-0.01c0.965,0.166,2.111,1.331,2.111,2.462   c0,1.243-1.184,2.019-2.43,2.019h-1.072c0.844,0.243,1.977,1.375,1.977,2.462c0,1.27-1.191,2.067-2.459,2.067H10.156   c-3.56,0-6.443-2.887-6.443-6.447c0,0,0-6.872,0-6.88c0-2.522,1.395-5.189,3.59-6.042c1.711-1.126,5.15-3.133,5.883-6.85   c0-1.449,0-2.809,0-2.809s4.807-0.52,4.807,3.999c0,5.322-3.348,6.186-0.686,6.314h3.98c1.406,0,2.621,1.37,2.621,2.779   c0,1.217-1.154,2.006-2.119,2.254h1.059C24.141,15.365,25.334,16.642,25.334,17.932z" />
                             </svg>
                             @else
@@ -97,141 +97,142 @@
 
 <script>
     $(document).ready(function() {
-        $(".heart-like").click(function() {
-            let heartIcon = $(this);
+    $(".heart-like").click(function() {
+        let heartIcon = $(this);
+        let user_id = "{{ Auth::id()}}";
+        let game_id = heartIcon.attr('data-id');
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+        });
+        if ($(this).attr('data-status') == "unliked") {
+            $.ajax({
+                type: "POST",
+                url: "{{ route('like-unlike-game') }}",
+                data: {
+                    liked: true,
+                    game_id: game_id,
+                    user_id: user_id
+                },
+
+                success: function(response) {
+                    heartIcon.removeClass('far');
+                    heartIcon.addClass('fa')
+                    heartIcon.attr('data-status', 'liked');
+                    console.log(response.message)
+                },
+                error: function(response) {
+                    console.log(response)
+                }
+            });
+        } else {
+            $.ajax({
+                type: "POST",
+                url: "{{ route('like-unlike-game') }}",
+                data: {
+                    liked: false,
+                    game_id: game_id,
+                    user_id: user_id
+                },
+                success: function(response) {
+                    heartIcon.removeClass('fa')
+                    heartIcon.addClass('far');
+                    heartIcon.attr('data-status', 'unliked')
+                    console.log(response.message)
+                },
+                error: function(response) {
+                    console.log(response)
+                }
+            });
+        }
+    });
+
+    $.fn.stars = function(options) {
+        var settings = $.extend({
+            stars: 1,
+            emptyIcon: 'far fa-star',
+            filledIcon: 'fa fa-star',
+            color: '#E4AD22',
+            starClass: '',
+            value: 0,
+            click: function() {}
+        }, options);
+        let user_rating = $(this).attr('data-rating');
+        console.log(user_rating);
+        for (var x = 0; x < settings.stars; x++) {
+            if (x < user_rating) {
+                var icon = $("<i>").addClass(settings.filledIcon).addClass("star-rating").attr("star-value", x + 1);
+
+            } else {
+                var icon = $("<i>").addClass(settings.emptyIcon).addClass("star-rating").attr("star-value", x + 1);
+            }
+            if (settings.color !== "none") {
+                icon.css("color", settings.color)
+            }
+            this.append(icon);
+        }
+
+        var stars = this.find("i");
+        stars.on("mouseover", function() {
+            var index = $(this).index() + 1;
+            var starsHovered = stars.slice(0, index);
+            events.removeFilledStars(stars, settings);
+            events.fillStars(starsHovered, settings);
+        }).on("mouseout", function() {
+            events.removeFilledStars(stars, settings);
+            events.fillStars(stars.filter(".selected"), settings);
+            if (settings.text) block.find(".rating-text").html("");
+        }).on("click", function() {
+            var index = $(this).index();
+            settings.value = index + 1;
+            stars.removeClass("selected").attr("data-value", "unrated").slice(0, settings.value).addClass("selected").attr("data-value", "rated").attr("data-id", "{{$game->id}}");
+            settings.click.call(stars.get(index), settings.value);
+
+            let starIcon = $(this);
             let user_id = "{{ Auth::id()}}";
-            let game_id = heartIcon.attr('data-id');
+            let game_id = starIcon.attr('data-id');
+            let rating_value = starIcon.attr('star-value');
+
             $.ajaxSetup({
                 headers: {
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                 }
             });
-            if ($(this).attr('data-status') == "unliked") {
-                $.ajax({
-                    type: "POST",
-                    url: "{{ route('like-unlike-game') }}",
-                    data: {
-                        liked: true,
-                        game_id: game_id,
-                        user_id: user_id
-                    },
+            $.ajax({
+                type: "POST",
+                url: "{{ route('rate-unrate-game') }}",
+                data: {
+                    rated: rating_value,
+                    game_id: game_id,
+                    user_id: user_id
+                },
 
-                    success: function(response) {
-                        heartIcon.removeClass('far');
-                        heartIcon.addClass('fa')
-                        heartIcon.attr('data-status', 'liked');
-                        console.log(response.message)
-                    },
-                    error: function(response) {
-                        console.log(response)
-                    }
-                });
-            } else {
-                $.ajax({
-                    type: "POST",
-                    url: "{{ route('like-unlike-game') }}",
-                    data: {
-                        liked: false,
-                        game_id: game_id,
-                        user_id: user_id
-                    },
-                    success: function(response) {
-                        heartIcon.removeClass('fa')
-                        heartIcon.addClass('far');
-                        heartIcon.attr('data-status', 'unliked')
-                        console.log(response.message)
-                    },
-                    error: function(response) {
-                        console.log(response)
-                    }
-                });
-            }
-        });
-
-        $.fn.stars = function(options) {
-            var settings = $.extend({
-                stars: 1,
-                emptyIcon: 'far fa-star',
-                filledIcon: 'fa fa-star',
-                color: '#E4AD22',
-                starClass: '',
-                value: 0,
-                click: function() {}
-            }, options);
-            let user_rating = $(this).attr('data-rating');
-            console.log(user_rating);
-            for (var x = 0; x < settings.stars; x++) {
-                if (x < user_rating) {
-                    var icon = $("<i>").addClass(settings.filledIcon).addClass("star-rating").attr("star-value", x + 1);
-
-                } else {
-                    var icon = $("<i>").addClass(settings.emptyIcon).addClass("star-rating").attr("star-value", x + 1);
+                success: function(response) {
+                    console.log(response.message)
+                },
+                error: function(response) {
+                    console.log(response)
                 }
-                if (settings.color !== "none") {
-                    icon.css("color", settings.color)
-                }
-                this.append(icon);
-            }
-
-            var stars = this.find("i");
-            stars.on("mouseover", function() {
-                var index = $(this).index() + 1;
-                var starsHovered = stars.slice(0, index);
-                events.removeFilledStars(stars, settings);
-                events.fillStars(starsHovered, settings);
-            }).on("mouseout", function() {
-                events.removeFilledStars(stars, settings);
-                events.fillStars(stars.filter(".selected"), settings);
-                if (settings.text) block.find(".rating-text").html("");
-            }).on("click", function() {
-                var index = $(this).index();
-                settings.value = index + 1;
-                stars.removeClass("selected").attr("data-value", "unrated").slice(0, settings.value).addClass("selected").attr("data-value", "rated").attr("data-id", "{{$game->id}}");
-                settings.click.call(stars.get(index), settings.value);
-
-                let starIcon = $(this);
-                let user_id = "{{ Auth::id()}}";
-                let game_id = starIcon.attr('data-id');
-                let rating_value = starIcon.attr('star-value');
-
-                $.ajaxSetup({
-                    headers: {
-                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                    }
-                });
-                $.ajax({
-                    type: "POST",
-                    url: "{{ route('rate-unrate-game') }}",
-                    data: {
-                        rated: rating_value,
-                        game_id: game_id,
-                        user_id: user_id
-                    },
-
-                    success: function(response) {
-                        console.log(response.message)
-                    },
-                    error: function(response) {
-                        console.log(response)
-                    }
-                });
-
             });
 
-            events = {
-                removeFilledStars: function(stars, s) {
-                    stars.removeClass(s.filledIcon).addClass(s.emptyIcon);
-                    return stars;
-                },
-                fillStars: function(stars, s) {
-                    stars.removeClass(s.emptyIcon).addClass(s.filledIcon);
-                    return stars;
-                }
-            };
-            return this;
-        };
+        });
 
-    }(jQuery));
+        events = {
+            removeFilledStars: function(stars, s) {
+                stars.removeClass(s.filledIcon).addClass(s.emptyIcon);
+                return stars;
+            },
+            fillStars: function(stars, s) {
+                stars.removeClass(s.emptyIcon).addClass(s.filledIcon);
+                return stars;
+            }
+        };
+        return this;
+    };
+
+}(jQuery));
+
 </script>
 
 <script>

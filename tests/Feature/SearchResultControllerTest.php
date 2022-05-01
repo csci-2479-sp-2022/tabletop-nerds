@@ -19,8 +19,9 @@ class SearchResultControllerTest extends TestCase
 
     private static function getSearchResult()
     {
-        $searchGame = Game::where('title', 'LIKE', 'Monopoly');
-        return $searchGame->first();
+        $searchGame = Game::with(['publisher', 'categories'])
+        ->where('title', 'LIKE', 'Monopoly');
+        return $searchGame->get();
     } // end get
 
     private static function getReviews($game)
@@ -51,8 +52,11 @@ class SearchResultControllerTest extends TestCase
         //act
         $response = $this->get('/search-results?game=Monopoly');
         //Assert
-        $response->assertStatus(302);
-        $response->assertRedirect('/game/2');
+        $response->assertStatus(200);
+        $response->assertViewHas(
+            'games',
+            $this->searchResult
+        );
     } //end get Test
 
     public function test_get_invalid_game_search_result()
@@ -62,7 +66,7 @@ class SearchResultControllerTest extends TestCase
             ->with('invalid')
             ->once()
             ->andReturn(
-                null
+                []
             );
         //act
         $response = $this->get('/search-results?game=invalid');
