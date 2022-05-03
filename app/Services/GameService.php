@@ -19,9 +19,12 @@ class GameService implements GameInterface
         return Game::with(['publisher', 'categories'])->get();
     }
 
-    public function searchGamesByTitle(string $title): ?Game
+    public function searchGamesByTitle(string $input)
     {
-        return Game::where('title', 'Like', "%{$title}%")->first();
+        return Game::with(['publisher', 'categories'])
+        ->where('title', 'Like', "%{$input}%")->get();
+        // We can also include the bellow condition if we want to search by game description too.
+        //->orWhere('description', 'Like', "%{$input}%" )->get();
     }
 
     public function getReviews(?Game $game)

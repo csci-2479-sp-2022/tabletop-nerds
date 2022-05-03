@@ -21,7 +21,7 @@ class RatingsController extends Controller
         $game_id = $data['game_id'];
         $user_id = $data['user_id'];
         $ratings = $this->accountInterface->getUserRating($user_id, $game_id) ?? new Ratings;
-        
+
         $ratings->game_id = $data['game_id'];
         $ratings->user_id = $data['user_id'];
         $ratings->game_rating = $data['rated'];
