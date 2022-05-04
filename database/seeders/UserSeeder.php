@@ -18,5 +18,6 @@ class UserSeeder extends Seeder
     {
         $userFactory = User::factory();
         $userFactory->count(5)->create();
+        $userFactory->create(['email' => 'admin@admin.com', 'is_admin' => true]);
     }
 }
