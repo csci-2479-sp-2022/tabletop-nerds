@@ -5,8 +5,11 @@ namespace App\Http\Controllers;
 use App\Contracts\AccountInterface;
 use Illuminate\Http\Request;
 use App\Contracts\GameInterface;
+use App\Http\Requests\AddCategory;
+use App\Http\Requests\AddGame;
 use App\Models\Review;
 use App\Models\Ratings;
+use Illuminate\Support\Facades\Gate;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class GameController extends Controller
@@ -40,4 +43,44 @@ class GameController extends Controller
         return view('game-info', [ 'game' => $game, 'reviews' => $reviews, 'reviewed' => $reviewed, 'userRating' => $userRating, 'averageRating' => $averageGameRating]);
     }
 
+    public function addGame(AddGame $request)
+    {
+        // $validated = $request->validated();
+        // return view('add-game-form', ['reqdata' => $validated]);
+        $this->gameInterface->addGame($request);
+        return redirect()->route('games');
+    }
+
+    public function addGameForm(Request $request)
+    {
+        Gate::denyIf(!$request->user()->is_admin);
+        return view('add-game-form', 
+        [
+            'publishers' => $this->gameInterface->getPublishers(),
+            'categories' => $this->gameInterface->getCategories(),
+        ]);
+    }
+
+    public function addPublisher(AddCategory $request)
+    {
+        $this->gameInterface->addPublisher($request);
+        return redirect()->route('games');
+    }
+    public function addPublisherForm(Request $request)
+    {
+        Gate::denyIf(!$request->user()->is_admin);
+        return view('add-publisher-form');
+    }
+
+    public function addCategory(AddCategory $request)
+    {
+        $this->gameInterface->addCategory($request);
+        return redirect()->route('games');
+
+    }
+    public function addCategoryForm(Request $request)
+    {
+        Gate::denyIf(!$request->user()->is_admin);
+        return view('add-category-form');
+    }
 }

@@ -36,7 +36,12 @@ Route::get('/profile', function () {
 Route::controller(GameController::class)->group(function() {
     Route::get('/games', 'showGameList')->name('games');
     Route::get('/game/{id}', 'showGame')->whereNumber('id')->name('game-info');
-
+    Route::get('/games/add-game', 'addGameForm')->middleware('auth')->name('add-game-form');
+    Route::post('/games/add-game', 'addGame')->middleware('auth')->name('add-game');
+    Route::get('/games/add-publisher', 'addPublisherForm')->middleware('auth')->name('add-publisher-form');
+    Route::post('/games/add-publisher', 'addPublisher')->middleware('auth')->name('add-publisher');
+    Route::get('/games/add-category', 'addCategoryForm')->middleware('auth')->name('add-category-form');
+    Route::post('/games/add-category', 'addCategory')->middleware('auth')->name('add-category');
 });
 
 Route::controller(ReviewController::class)->group(function(){
