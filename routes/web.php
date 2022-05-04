@@ -6,6 +6,7 @@ use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\RatingsController;
 use App\Http\Controllers\SearchResultController;
 use App\Http\Controllers\WishlistController;
+use App\Services\AccountService;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -31,7 +32,6 @@ Route::get('/', function () {
 Route::get('/profile', function () {
     return view('profile');
 })->middleware(['auth'])->name('profile');
-
 
 Route::controller(GameController::class)->group(function() {
     Route::get('/games', 'showGameList')->name('games');
