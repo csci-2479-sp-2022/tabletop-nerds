@@ -28,6 +28,10 @@ Route::get('/', function () {
     return view('homepage');
 })->name('home');
 
+Route::get('/info', function () {
+    return phpinfo();
+})->name('info');
+
 
 Route::get('/profile', function () {
     return view('profile');
